@@ -1,0 +1,29 @@
+# ============================================================
+# Keystore e secrets di firma (MAI committare)
+# ============================================================
+*.jks
+*.keystore
+keystores/
+**/release.jks
+**/debug.keystore
+**/*.jks
+**/*.keystore
+
+# Gradle
+.gradle/
+build/
+
+# Android Studio / IntelliJ
+.idea/
+*.iml
+local.properties
+
+# Output (APK/AAB) - non committare i binari firmati
+**/*.apk
+**/*.ap_
+**/*.aab
+**/*.dex
+captures/
+
+# Debug
+*.hprof

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LingoLens</string>
+    <string name="app_description">Traduci il mondo intorno a te. Anche senza internet.</string>
+    
+    <!-- Camera & Translation -->
+    <string name="camera_permission_denied">Permesso fotocamera negato</string>
+    <string name="camera_permission_request">LingoLens ha bisogno dell\'accesso alla fotocamera</string>
+    <string name="camera_permission_grant">Concedi permesso</string>
+    
+    <!-- Language Management -->
+    <string name="language_management">Gestione lingue</string>
+    <string name="download_model">Scarica modello</string>
+    <string name="downloading">Scaricamento in corso...</string>
+    <string name="downloaded">Scaricato</string>
+    <string name="download_failed">Scaricamento fallito</string>
+    <string name="retry">Riprova</string>
+    <string name="delete">Elimina</string>
+    <string name="free_plan_limit">Piano gratuito: max 2 lingue</string>
+    <string name="upgrade_to_pro">Aggiorna a Pro per lingue illimitate</string>
+    
+    <!-- Translation -->
+    <string name="from_language">Da:</string>
+    <string name="to_language">A:</string>
+    <string name="translating">Traduzione in corso...</string>
+    <string name="translation_failed">Traduzione fallita</string>
+    <string name="no_text_detected">Nessun testo rilevato</string>
+    <string name="model_not_installed">Modello non installato</string>
+    
+    <!-- Offline -->
+    <string name="offline_mode">Modalità offline</string>
+    <string name="no_internet">Nessuna connessione internet</string>
+    <string name="download_required">Download richiesto per questa lingua</string>
+    
+    <!-- Settings -->
+    <string name="settings">Impostazioni</string>
+    <string name="privacy_policy">Informativa sulla privacy</string>
+    <string name="about">Informazioni</string>
+    <string name="version">Versione</string>
+    
+    <!-- Pro Plan -->
+    <string name="pro_plan">Piano Pro</string>
+    <string name="pro_features">Funzioni Pro: Lingue illimitate, Cronologia traduzioni, Modalità conversazione</string>
+    <string name="purchase">Acquista</string>
+    <string name="purchased">Acquistato</string>
+    <string name="purchase_failed">Acquisto fallito</string>
+</resources>

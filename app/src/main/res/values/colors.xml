@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Material 3 Palette - Teal/Cyan Theme -->
+    <color name="primary">#00897B</color>
+    <color name="primary_light">#4DB8AA</color>
+    <color name="primary_dark">#00695C</color>
+    
+    <color name="secondary">#FF6F00</color>
+    <color name="secondary_light">#FFB74D</color>
+    <color name="secondary_dark">#E65100</color>
+    
+    <color name="tertiary">#7B1FA2</color>
+    <color name="tertiary_light">#BA68C8</color>
+    <color name="tertiary_dark">#4A148C</color>
+    
+    <color name="background">#FAFAFA</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="surface_variant">#F5F5F5</color>
+    
+    <color name="error">#D32F2F</color>
+    <color name="error_light">#EF5350</color>
+    <color name="error_dark">#B71C1C</color>
+    
+    <!-- Text Colors -->
+    <color name="text_primary">#212121</color>
+    <color name="text_secondary">#757575</color>
+    <color name="text_tertiary">#BDBDBD</color>
+    <color name="text_on_primary">#FFFFFF</color>
+    
+    <!-- Overlay -->
+    <color name="overlay_semi_transparent">#80000000</color>
+    <color name="overlay_light">#CCFFFFFF</color>
+</resources>
