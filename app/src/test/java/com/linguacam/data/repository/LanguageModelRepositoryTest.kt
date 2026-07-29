@@ -14,7 +14,7 @@ class LanguageModelRepositoryTest {
 
     @Test
     fun `ModelDownloadState Idle and NotDownloaded are distinct`() {
-        assertNotEquals<ModelDownloadState>(ModelDownloadState.Idle, ModelDownloadState.NotDownloaded)
+        assertNotEquals(ModelDownloadState.Idle as Any, ModelDownloadState.NotDownloaded as Any)
     }
 
     @Test
