@@ -34,6 +34,7 @@ import timber.log.Timber
  * - Espone il flusso di acquisto tramite ActivityResultLauncher interno + BillingFlowParams reale.
  * - Osserva BillingEffect per gestire idle / loading / successo / errore / cancellazione.
  */
+@OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
 @Composable
 fun ProPlanScreen(
     billing: BillingRepositoryAPI,
@@ -351,6 +352,7 @@ fun ProPlanScreen(
     }
 }
 
+@OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
 @Composable
 fun ProBenefit(
     icon: androidx.compose.ui.graphics.vector.ImageVector,

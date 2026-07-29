@@ -98,12 +98,12 @@ class TranslationRepository(
             try {
                 val sourceLanguage: String? = mapMlKitLanguageCode(sourceLanguageCode)
                 val targetLanguage: String? = mapMlKitLanguageCode(targetLanguageCode)
-                
+
                 if (sourceLanguage == null || targetLanguage == null) {
                     Timber.w("Lingua non supportata: $sourceLanguageCode o $targetLanguageCode")
-                    return null
+                    return@getOrPut null
                 }
-                
+
                 val options = TranslatorOptions.Builder()
                     .setSourceLanguage(sourceLanguage)
                     .setTargetLanguage(targetLanguage)
