@@ -25,7 +25,7 @@ class TranslationRepository(
     private val languageModelRepository: LanguageModelRepository = LanguageModelRepository()
 ) {
 
-    private val translators = mutableMapOf<String, Translator>()
+    private val translators = mutableMapOf<String, Translator?>()
 
     /**
      * Traduce un testo da una lingua all'altra.
@@ -93,28 +93,35 @@ class TranslationRepository(
         targetLanguageCode: String
     ): Translator? {
         val key = "$sourceLanguageCode-$targetLanguageCode"
-        
-        return translators.getOrPut(key) {
-            try {
-                val sourceLanguage: String? = mapMlKitLanguageCode(sourceLanguageCode)
-                val targetLanguage: String? = mapMlKitLanguageCode(targetLanguageCode)
 
-                if (sourceLanguage == null || targetLanguage == null) {
-                    Timber.w("Lingua non supportata: $sourceLanguageCode o $targetLanguageCode")
-                    return@getOrPut null
-                }
+        // Cache hit: riusa Translator esistente (già non-null perché garantito al momento dell'inserimento).
+        translators[key]?.let { return it }
 
+        // Cache miss: crea nuovo Translator.
+        val newTranslator: Translator? = try {
+            val sourceLanguage: String? = mapMlKitLanguageCode(sourceLanguageCode)
+            val targetLanguage: String? = mapMlKitLanguageCode(targetLanguageCode)
+
+            if (sourceLanguage == null || targetLanguage == null) {
+                Timber.w("Lingua non supportata: $sourceLanguageCode o $targetLanguageCode")
+                null
+            } else {
                 val options = TranslatorOptions.Builder()
                     .setSourceLanguage(sourceLanguage)
                     .setTargetLanguage(targetLanguage)
                     .build()
-                
                 Translation.getClient(options)
-            } catch (e: Exception) {
-                Timber.e(e, "Errore nella creazione del translator")
-                null
             }
+        } catch (e: Exception) {
+            Timber.e(e, "Errore nella creazione del translator")
+            null
         }
+
+        // Inserisci in cache SOLO se non-null (evita di cachare "fallimenti" che bloccherebbero retry).
+        if (newTranslator != null) {
+            translators[key] = newTranslator
+        }
+        return newTranslator
     }
     
     /**
