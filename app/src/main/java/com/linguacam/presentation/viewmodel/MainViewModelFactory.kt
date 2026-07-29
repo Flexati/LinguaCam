@@ -10,6 +10,10 @@ import com.linguacam.data.repository.TranslationRepository
 
 /**
  * Factory per istanziare MainViewModel con le sue dipendenze.
+ *
+ * Nota: per OnboardingViewModel e FavoritesViewModel esistono factory dedicate
+ * (OnboardingViewModelFactory, FavoritesViewModelFactory) — questo file resta
+ * responsabile SOLO di MainViewModel per chiarezza di responsabilità.
  */
 class MainViewModelFactory(private val context: Context) : ViewModelProvider.Factory {
 

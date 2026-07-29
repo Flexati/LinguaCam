@@ -16,7 +16,7 @@ import timber.log.Timber
 
 /**
  * Sistema di overlay che visualizza le traduzioni sopra il testo riconosciuto.
- * 
+ *
  * Responsabilità:
  * - Posizionare correttamente il testo tradotto sopra quello originale
  * - Gestire la rotazione e l'inclinazione del testo
@@ -25,19 +25,39 @@ import timber.log.Timber
 
 /**
  * Composable che renderizza l'overlay di traduzione.
- * 
- * @param textBlocks Lista dei blocchi di testo riconosciuti con coordinate
+ *
+ * **Coordinate responsive** (2026-07-29 — Context-Morph):
+ * - I [TextBlock] di ML Kit hanno coordinate in pixel relativi al frame analizzato.
+ * - [containerWidth] e [containerHeight] sono le dimensioni REALI del Box che
+ *   contiene l'overlay, espresse in pixel (px → poi convertite in dp).
+ * - Le coordinate dell'overlay vengono calcolate come rapporto:
+ *   `left = (block.left / frameWidth) * containerWidth`
+ *   In questo modo l'overlay si scala correttamente su qualsiasi risoluzione
+ *   camera/preview, eliminando i magic number hardcoded.
+ *
+ * @param textBlocks Lista dei blocchi di testo riconosciuti con coordinate in pixel
  * @param translatedTexts Mappa da testo originale a testo tradotto
- * @param containerWidth Larghezza del container (preview della camera)
- * @param containerHeight Altezza del container (preview della camera)
+ * @param containerWidth Larghezza del container in pixel (px)
+ * @param containerHeight Altezza del container in pixel (px)
+ * @param frameWidth Larghezza del frame a cui le coordinate di ML Kit si riferiscono.
+ *                  Default 1280f per retrocompat con il vecchio contratto hardcoded.
+ * @param frameHeight Altezza del frame a cui le coordinate di ML Kit si riferiscono.
+ *                  Default 720f per retrocompat con il vecchio contratto hardcoded.
  */
 @Composable
 fun TranslationOverlay(
     textBlocks: List<TextBlock>,
     translatedTexts: Map<String, String>,
-    containerWidth: Int,
-    containerHeight: Int
+    containerWidth: Float,
+    containerHeight: Float,
+    frameWidth: Float = 1280f,
+    frameHeight: Float = 720f
 ) {
+    // Guardia: se le dimensioni non sono ancora note, non renderizzare nulla.
+    if (containerWidth <= 0f || containerHeight <= 0f || frameWidth <= 0f || frameHeight <= 0f) {
+        return
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -45,20 +65,21 @@ fun TranslationOverlay(
     ) {
         textBlocks.forEach { block ->
             val translatedText = translatedTexts[block.text] ?: block.text
-            
-            // Calcola la posizione relativa al container
-            val left = (block.left / 1280f * containerWidth).dp
-            val top = (block.top / 720f * containerHeight).dp
-            val width = ((block.right - block.left) / 1280f * containerWidth).dp
-            val height = ((block.bottom - block.top) / 720f * containerHeight).dp
-            
-            Timber.d("Rendering overlay: '$translatedText' at ($left, $top)")
-            
+
+            // Coordinate RELATIVE al frame ML Kit, scalate al container reale.
+            // Niente più magic number 1280×720 — funziona su qualsiasi preview.
+            val leftDp = (block.left / frameWidth * containerWidth).dp
+            val topDp = (block.top / frameHeight * containerHeight).dp
+            val widthDp = ((block.right - block.left) / frameWidth * containerWidth).dp
+            val heightDp = ((block.bottom - block.top) / frameHeight * containerHeight).dp
+
+            Timber.d("Rendering overlay: '$translatedText' at (${leftDp.value}dp, ${topDp.value}dp)")
+
             Box(
                 modifier = Modifier
-                    .offset(left, top)
-                    .width(width)
-                    .height(height)
+                    .offset(leftDp, topDp)
+                    .width(widthDp)
+                    .height(heightDp)
                     .background(
                         Color.Black.copy(alpha = 0.7f),
                         shape = MaterialTheme.shapes.extraSmall

@@ -1,13 +1,19 @@
 package com.linguacam.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.linguacam.data.repository.PreferencesRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 /**
  * ViewModel che gestisce lo stato del flusso onboarding.
+ *
+ * Esteso 2026-07-29 da Context-Morph: aggiunta dipendenza PreferencesRepository
+ * per poter persistere lo stato di completamento onboarding.
  */
 data class OnboardingState(
     val currentStep: Int = 0,
@@ -17,16 +23,18 @@ data class OnboardingState(
 ) {
     val progress: Float
         get() = (currentStep + 1) / totalSteps.toFloat()
-    
+
     val isLastStep: Boolean
         get() = currentStep == totalSteps - 1
 }
 
-class OnboardingViewModel : ViewModel() {
-    
+class OnboardingViewModel(
+    private val preferencesRepository: PreferencesRepository
+) : ViewModel() {
+
     private val _state = MutableStateFlow(OnboardingState())
     val state: StateFlow<OnboardingState> = _state.asStateFlow()
-    
+
     /**
      * Passa al prossimo step dell'onboarding.
      */
@@ -39,7 +47,7 @@ class OnboardingViewModel : ViewModel() {
             completeOnboarding()
         }
     }
-    
+
     /**
      * Torna al passo precedente.
      */
@@ -50,7 +58,7 @@ class OnboardingViewModel : ViewModel() {
             Timber.d("Onboarding step back: ${_state.value.currentStep + 1}/${currentState.totalSteps}")
         }
     }
-    
+
     /**
      * Salta l'onboarding.
      */
@@ -58,15 +66,18 @@ class OnboardingViewModel : ViewModel() {
         Timber.d("Onboarding skipped")
         completeOnboarding()
     }
-    
+
     /**
-     * Completa l'onboarding.
+     * Completa l'onboarding e persiste lo stato.
      */
     private fun completeOnboarding() {
         _state.value = _state.value.copy(isCompleted = true)
         Timber.d("Onboarding completed")
+        viewModelScope.launch {
+            preferencesRepository.markOnboardingCompleted()
+        }
     }
-    
+
     /**
      * Resetta l'onboarding (per testing).
      */

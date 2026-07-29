@@ -8,16 +8,16 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CameraAlt
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.SwapVert
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.SwapVert
+import androidx.compose.material.icons.filled.WorkspacePremium
 import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.linguacam.domain.model.Language
 import com.linguacam.presentation.viewmodel.MainUiState
@@ -30,26 +30,30 @@ import timber.log.Timber
  *
  * Design: Material 3 con animazioni fluide
  * Funzionalità: Selezione lingue, traduzione, overlay, preferiti
+ *
+ * Step 2026-07-29 (Context-Morph — P0 integration):
+ * - Aggiunti callbacks [onOpenCamera], [onOpenFavorites], [onOpenProPlan] per la NavGraph.
+ * - TopAppBar contiene ora: Settings + Favorites (star) + ProPlan (corona).
+ * - FAB "Camera" visibile e accessibile (icona + label) per primary action.
  */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(viewModel: MainViewModel) {
+fun MainScreen(
+    viewModel: MainViewModel,
+    modifier: Modifier = Modifier,
+    onOpenCamera: () -> Unit = {},
+    onOpenFavorites: () -> Unit = {},
+    onOpenProPlan: () -> Unit = {}
+) {
     val uiState by viewModel.uiState.collectAsState()
     var showLanguageSelector by remember { mutableStateOf(false) }
     var isSelectingSource by remember { mutableStateOf(true) }
-    
+
     Timber.d("MainScreen rendering")
-    
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-        ) {
-            // Header
+
+    Scaffold(
+        modifier = modifier.fillMaxSize(),
+        topBar = {
             TopAppBar(
                 title = {
                     Text(
@@ -59,6 +63,20 @@ fun MainScreen(viewModel: MainViewModel) {
                     )
                 },
                 actions = {
+                    IconButton(onClick = onOpenProPlan) {
+                        Icon(
+                            Icons.Filled.WorkspacePremium,
+                            contentDescription = "Upgrade a Pro",
+                            tint = MaterialTheme.colorScheme.onPrimary
+                        )
+                    }
+                    IconButton(onClick = onOpenFavorites) {
+                        Icon(
+                            Icons.Filled.Star,
+                            contentDescription = "Preferiti",
+                            tint = MaterialTheme.colorScheme.onPrimary
+                        )
+                    }
                     IconButton(onClick = { Timber.d("Settings clicked") }) {
                         Icon(
                             Icons.Default.Settings,
@@ -71,7 +89,28 @@ fun MainScreen(viewModel: MainViewModel) {
                     containerColor = MaterialTheme.colorScheme.primary
                 )
             )
-            
+        },
+        floatingActionButton = {
+            ExtendedFloatingActionButton(
+                onClick = onOpenCamera,
+                containerColor = MaterialTheme.colorScheme.secondary,
+                contentColor = MaterialTheme.colorScheme.onSecondary,
+                icon = {
+                    Icon(
+                        Icons.Filled.CameraAlt,
+                        contentDescription = null
+                    )
+                },
+                text = { Text("Camera") }
+            )
+        }
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .verticalScroll(rememberScrollState())
+        ) {
             // Language Selection Section
             Card(
                 modifier = Modifier
@@ -94,13 +133,13 @@ fun MainScreen(viewModel: MainViewModel) {
                             showLanguageSelector = false
                         },
                         isOpen = showLanguageSelector && isSelectingSource,
-                        onOpenChange = { 
+                        onOpenChange = {
                             showLanguageSelector = it
                             isSelectingSource = true
                         },
                         availableLanguages = uiState.availableLanguages
                     )
-                    
+
                     // Swap Languages Button
                     Row(
                         modifier = Modifier
@@ -122,7 +161,7 @@ fun MainScreen(viewModel: MainViewModel) {
                             )
                         }
                     }
-                    
+
                     // Target Language
                     LanguageSelector(
                         label = "A:",
@@ -132,7 +171,7 @@ fun MainScreen(viewModel: MainViewModel) {
                             showLanguageSelector = false
                         },
                         isOpen = showLanguageSelector && !isSelectingSource,
-                        onOpenChange = { 
+                        onOpenChange = {
                             showLanguageSelector = it
                             isSelectingSource = false
                         },
@@ -140,7 +179,7 @@ fun MainScreen(viewModel: MainViewModel) {
                     )
                 }
             }
-            
+
             // Translation Result Section
             if (uiState.lastTranslation != null) {
                 Card(
@@ -166,7 +205,7 @@ fun MainScreen(viewModel: MainViewModel) {
                             style = MaterialTheme.typography.bodyMedium,
                             modifier = Modifier.padding(bottom = 12.dp)
                         )
-                        
+
                         // Translated Text
                         Text(
                             text = "Traduzione:",
@@ -179,7 +218,7 @@ fun MainScreen(viewModel: MainViewModel) {
                             color = MaterialTheme.colorScheme.primary,
                             modifier = Modifier.padding(bottom = 16.dp)
                         )
-                        
+
                         // Confidence Score
                         Row(
                             modifier = Modifier
@@ -201,7 +240,7 @@ fun MainScreen(viewModel: MainViewModel) {
                                 color = MaterialTheme.colorScheme.primary
                             )
                         }
-                        
+
                         // Favorite Button
                         FavoriteButton(
                             isFavorite = uiState.isFavorite,
@@ -217,7 +256,7 @@ fun MainScreen(viewModel: MainViewModel) {
                     }
                 }
             }
-            
+
             // Loading State
             if (uiState.isTranslating) {
                 Card(
@@ -247,7 +286,7 @@ fun MainScreen(viewModel: MainViewModel) {
                     }
                 }
             }
-            
+
             // Error State
             if (uiState.error != null) {
                 Card(
@@ -266,7 +305,7 @@ fun MainScreen(viewModel: MainViewModel) {
                     )
                 }
             }
-            
+
             // Favorite Message
             AnimatedVisibility(
                 visible = uiState.favoriteMessage != null,
@@ -291,7 +330,7 @@ fun MainScreen(viewModel: MainViewModel) {
                     }
                 }
             }
-            
+
             // Status Indicator
             Row(
                 modifier = Modifier
@@ -329,7 +368,7 @@ private fun LanguageSelector(
             Spacer(modifier = Modifier.width(8.dp))
             Text(selectedLanguage.name)
         }
-        
+
         if (isOpen) {
             Card(
                 modifier = Modifier
@@ -430,7 +469,7 @@ private fun StatusIndicator(
                 color = MaterialTheme.colorScheme.onPrimary
             )
         }
-        
+
         // Camera Permission Status
         if (!isCameraPermissionGranted) {
             Surface(

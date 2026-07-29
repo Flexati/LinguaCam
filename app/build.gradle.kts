@@ -117,6 +117,10 @@ dependencies {
     implementation("androidx.compose.foundation:foundation:1.5.1") // VERIFIED - Added to resolve isSystemInDarkMode
     implementation("androidx.compose.material:material-icons-extended") // INFERRED - Added to resolve missing icon references
 
+    // Navigation Compose (added 2026-07-29 by Context-Morph for P0 integration)
+    implementation("androidx.navigation:navigation-compose:2.7.5")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1") // for viewModel() in nav graph
+
     // CameraX
     implementation("androidx.camera:camera-core:1.3.3") // INFERRED
     implementation("androidx.camera:camera-camera2:1.3.3") // INFERRED

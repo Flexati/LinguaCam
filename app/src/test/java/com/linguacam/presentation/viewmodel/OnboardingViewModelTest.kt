@@ -1,6 +1,9 @@
 package com.linguacam.presentation.viewmodel
 
+import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.test.core.app.ApplicationProvider
+import com.linguacam.data.repository.PreferencesRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -17,26 +20,35 @@ import kotlin.test.assertTrue
 
 /**
  * Test unitari per OnboardingViewModel.
- * 
+ *
  * Verifica:
  * - Navigazione tra step
  * - Progress calculation
  * - Skip functionality
  * - Completion state
+ *
+ * Aggiornato 2026-07-29 (Context-Morph — P0-3):
+ * - OnboardingViewModel ora richiede PreferencesRepository nel costruttore.
+ * - In test usiamo un PreferencesRepository reale con ApplicationProvider context
+ *   (DataStore Preferences è disponibile anche in JVM unit-test).
  */
 @ExperimentalCoroutinesApi
 class OnboardingViewModelTest {
-    
+
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
-    
+
     private val testDispatcher = StandardTestDispatcher()
     private lateinit var viewModel: OnboardingViewModel
-    
+    private lateinit var preferencesRepository: PreferencesRepository
+    private lateinit var appContext: Context
+
     @Before
     fun setup() {
         Dispatchers.setMain(testDispatcher)
-        viewModel = OnboardingViewModel()
+        appContext = ApplicationProvider.getApplicationContext()
+        preferencesRepository = PreferencesRepository(appContext)
+        viewModel = OnboardingViewModel(preferencesRepository)
     }
     
     @After

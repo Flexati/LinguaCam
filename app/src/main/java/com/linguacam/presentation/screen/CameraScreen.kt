@@ -8,13 +8,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.SwapVert
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -38,6 +38,10 @@ import timber.log.Timber
  * - Permesso fotocamera richiesto runtime (ActivityResultContracts.RequestPermission)
  * - cameraManager.startCamera() chiamato DOPO che il permesso è stato concesso
  *  e DOPO che il PreviewView è stato creato
+ *
+ * Step 6 (2026-07-29 — Context-Morph):
+ * - BoxWithConstraints usato per misurare il container reale dell'overlay in pixel.
+ * - Le dimensioni vengono passate a TranslationOverlay come Float (px) → niente più hardcoded 1280×720.
  */
 @Composable
 fun CameraScreen(
@@ -48,6 +52,7 @@ fun CameraScreen(
 ) {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
+    val density = LocalDensity.current
     val ocrRepository = remember { OcrRepository() }
 
     // Step 4: propaga il cambio lingua al OCR repository per cambiare script ML Kit.
@@ -109,11 +114,16 @@ fun CameraScreen(
         }
     }
 
-    Box(
+    BoxWithConstraints(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.Black)
     ) {
+        // Misura reale del container in pixel (px) per TranslationOverlay responsive.
+        // BoxWithConstraints fornisce le constraints in dp; convertiamo in px.
+        val containerWidthPx = with(density) { maxWidth.toPx() }
+        val containerHeightPx = with(density) { maxHeight.toPx() }
+
         // Camera Preview
         AndroidView(
             factory = { ctx ->
@@ -137,8 +147,8 @@ fun CameraScreen(
             TranslationOverlay(
                 textBlocks = recognizedText!!.blocks,
                 translatedTexts = translatedTexts,
-                containerWidth = 1280,
-                containerHeight = 720
+                containerWidth = containerWidthPx,
+                containerHeight = containerHeightPx
             )
         }
 
