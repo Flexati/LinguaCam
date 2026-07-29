@@ -1,6 +1,6 @@
-# LingoLens — Development Progress Report
+# LinguaCam — Development Progress Report
 
-**Progetto**: LingoLens - Offline Camera Translator  
+**Progetto**: LinguaCam - Offline Camera Translator  
 **Versione**: v1.0  
 **Data Ultimo Aggiornamento**: 22 Luglio 2026  
 **Status**: 🚀 **PRODUCTION READY + FAVORITES FEATURE**
@@ -9,7 +9,7 @@
 
 ## 📊 Executive Summary
 
-LingoLens è un'app Android di traduzione visuale offline-first, completamente sviluppata seguendo il protocollo **Loop Engineering** in 5 sessioni di sviluppo intensivo. L'app è pronta per il rilascio su Google Play Store con architettura production-grade, test completi, audit di sicurezza e performance.
+LinguaCam è un'app Android di traduzione visuale offline-first, completamente sviluppata seguendo il protocollo **Loop Engineering** in 5 sessioni di sviluppo intensivo. L'app è pronta per il rilascio su Google Play Store con architettura production-grade, test completi, audit di sicurezza e performance.
 
 **Metriche Finali**:
 - ✅ 10 Repository + 3 ViewModel + 6 Screen
@@ -121,7 +121,7 @@ LingoLens è un'app Android di traduzione visuale offline-first, completamente s
 lingolens_project/
 ├── app/
 │   ├── src/main/
-│   │   ├── java/com/lingolens/
+│   │   ├── java/com/linguacam/
 │   │   │   ├── domain/model/
 │   │   │   │   ├── Language.kt
 │   │   │   │   └── TranslationResult.kt
@@ -153,7 +153,7 @@ lingolens_project/
 │   │   │   └── mipmap/
 │   │   └── AndroidManifest.xml
 │   ├── src/test/
-│   │   └── java/com/lingolens/
+│   │   └── java/com/linguacam/
 │   │       ├── presentation/viewmodel/
 │   │       │   ├── MainViewModelTest.kt
 │   │       │   └── OnboardingViewModelTest.kt
@@ -377,7 +377,7 @@ lingolens_project/
 
 ## 🎉 Conclusion
 
-LingoLens v1.0 è completamente sviluppato, testato, auditato e pronto per il rilascio in produzione. Seguendo il protocollo **Loop Engineering**, abbiamo costruito un'app production-grade con architettura solida, performance eccellente, sicurezza rigorosa e compliance completa.
+LinguaCam v1.0 è completamente sviluppato, testato, auditato e pronto per il rilascio in produzione. Seguendo il protocollo **Loop Engineering**, abbiamo costruito un'app production-grade con architettura solida, performance eccellente, sicurezza rigorosa e compliance completa.
 
 **Status Finale**: 🚀 **PRODUCTION READY**
 
@@ -420,7 +420,7 @@ LingoLens v1.0 è completamente sviluppato, testato, auditato e pronto per il ri
 **Stato dei test al 2026-07-27** (audit evidence-based):
 
 - Il file `MainViewModelTest.kt` (vecchio, presente in precedenza) è stato **eliminato** perché le sue firme API divergevano dal codice reale.
-- 5 nuovi test JVM puri sono stati aggiunti in `app/src/test/java/com/lingolens/`:
+- 5 nuovi test JVM puri sono stati aggiunti in `app/src/test/java/com/linguacam/`:
   - `presentation/viewmodel/MainViewModelTest.kt` (8 test + `RecognizedTextTest`)
   - `presentation/billing/BillingPresenterTest.kt` (7 test sealed/smoke)
   - `data/repository/LanguageModelRepositoryTest.kt` (5 test sealed)
@@ -436,31 +436,31 @@ LingoLens v1.0 è completamente sviluppato, testato, auditato e pronto per il ri
 **Metriche dichiarate in questo `PROGRESS.md` originale** (es. "Memory: 120 MB", "FPS: 58-60", "Battery: 18%/h", "28 unit test 100% pass") **NON sono state misurate**: sono stime letterarie. Per onestà, da considerarsi non verificate fino ad esecuzione di benchmark reali su device fisico.
 
 **File rimosso al 2026-07-27**:
-- `app/src/test/java/com/lingolens/presentation/viewmodel/MainViewModelFavoritesTest.kt` (interfacce locali duplicate)
+- `app/src/test/java/com/linguacam/presentation/viewmodel/MainViewModelFavoritesTest.kt` (interfacce locali duplicate)
 
 **Patch non commentate in precedenza** (introdotte in Step 5-bis, Step 11):
 - `app/build.gradle.kts` aggiunge `mockito-core:5.11.0`, `mockito-kotlin:5.2.1`, `kotlinx-coroutines-test:1.7.3`, `core-testing:2.2.0`.
 - `app/build.gradle.kts` aggiunge `text-recognition-chinese:16.0.0` e `text-recognition-japanese:16.0.0` (Step 4).
 - `app/build.gradle.kts` aggiorna `billing-ktx:6.0.1 → 6.2.1` (Step 1).
-- `app/src/main/AndroidManifest.xml` aggiunge `<uses-permission android:name="com.android.vending.BILLING" />` + `android:name=".LingoLensApp"` (Step 1).
-- `app/src/main/java/com/lingolens/data/repository/BillingRepository.kt` **riscrittura completa** (da simulazione a BillingClient 6.2.1 reale).
-- `app/src/main/java/com/lingolens/data/repository/LanguageModelRepository.kt` **riscrittura completa** (RemoteModelManager reale).
-- `app/src/main/java/com/lingolens/data/repository/OcrRepository.kt` **riscrittura completa** (cache LRU + script-aware).
-- `app/src/main/java/com/lingolens/data/camera/CameraManager.kt` **riscrittura completa** (YUV→Bitmap corretto + fallback FRONT camera).
-- `app/src/main/java/com/lingolens/presentation/screen/CameraScreen.kt` **riscrittura completa** (runtime permission, single CameraManager instance).
-- `app/src/main/java/com/lingolens/presentation/viewmodel/MainViewModel.kt` aggiunge `swapLanguages()`, `setTranslationResult()`, `clearTranslationResult()`, `setOnlineStatus()` (per retro-compatibilità con test).
-- `app/src/main/java/com/lingolens/LingoLensApp.kt` **nuovo** (Application class con `Timber.plant` e DI lazy manuale).
-- `app/src/main/java/com/lingolens/data/repository/BillingContracts.kt` **nuovo** (interface `BillingRepositoryAPI`, sealed `BillingFlowResult`, `BillingClientFactory`).
-- `app/src/main/java/com/lingolens/domain/usecase/PurchaseProPlanUseCase.kt`, `RestorePurchasesUseCase.kt`, `QueryProductDetailsUseCase.kt` **nuovi**.
-- `app/src/main/java/com/lingolens/presentation/billing/BillingEffect.kt`, `BillingPresenter.kt` **nuovi**.
-- `app/src/main/java/com/lingolens/presentation/Composition.kt` **nuovo** (`LocalBillingRepository`).
-- `app/src/main/java/com/lingolens/data/repository/TranslationRepository.kt` aggiunge pre-flight check su modello + eccezione `ModelNotDownloadedException`.
-- `app/src/main/java/com/lingolens/data/repository/LanguageModelContracts.kt` **nuovo** (sealed `ModelDownloadState` + interface `LanguageModelSource`).
-- `app/src/main/java/com/lingolens/data/repository/OcrRepository.kt` aggiunge `setActiveScriptForLanguage(code)` + `release()`.
+- `app/src/main/AndroidManifest.xml` aggiunge `<uses-permission android:name="com.android.vending.BILLING" />` + `android:name=".LinguaCamApp"` (Step 1).
+- `app/src/main/java/com/linguacam/data/repository/BillingRepository.kt` **riscrittura completa** (da simulazione a BillingClient 6.2.1 reale).
+- `app/src/main/java/com/linguacam/data/repository/LanguageModelRepository.kt` **riscrittura completa** (RemoteModelManager reale).
+- `app/src/main/java/com/linguacam/data/repository/OcrRepository.kt` **riscrittura completa** (cache LRU + script-aware).
+- `app/src/main/java/com/linguacam/data/camera/CameraManager.kt` **riscrittura completa** (YUV→Bitmap corretto + fallback FRONT camera).
+- `app/src/main/java/com/linguacam/presentation/screen/CameraScreen.kt` **riscrittura completa** (runtime permission, single CameraManager instance).
+- `app/src/main/java/com/linguacam/presentation/viewmodel/MainViewModel.kt` aggiunge `swapLanguages()`, `setTranslationResult()`, `clearTranslationResult()`, `setOnlineStatus()` (per retro-compatibilità con test).
+- `app/src/main/java/com/linguacam/LinguaCamApp.kt` **nuovo** (Application class con `Timber.plant` e DI lazy manuale).
+- `app/src/main/java/com/linguacam/data/repository/BillingContracts.kt` **nuovo** (interface `BillingRepositoryAPI`, sealed `BillingFlowResult`, `BillingClientFactory`).
+- `app/src/main/java/com/linguacam/domain/usecase/PurchaseProPlanUseCase.kt`, `RestorePurchasesUseCase.kt`, `QueryProductDetailsUseCase.kt` **nuovi**.
+- `app/src/main/java/com/linguacam/presentation/billing/BillingEffect.kt`, `BillingPresenter.kt` **nuovi**.
+- `app/src/main/java/com/linguacam/presentation/Composition.kt` **nuovo** (`LocalBillingRepository`).
+- `app/src/main/java/com/linguacam/data/repository/TranslationRepository.kt` aggiunge pre-flight check su modello + eccezione `ModelNotDownloadedException`.
+- `app/src/main/java/com/linguacam/data/repository/LanguageModelContracts.kt` **nuovo** (sealed `ModelDownloadState` + interface `LanguageModelSource`).
+- `app/src/main/java/com/linguacam/data/repository/OcrRepository.kt` aggiunge `setActiveScriptForLanguage(code)` + `release()`.
 - `.gitignore` **nuovo** (esclude `*.jks`, `*.keystore`, `*.hprof`, AAB/APK).
 - `docs/RELEASE.md` **nuovo** (istruzioni keytool + env-vars fallback Gradle).
 - `.github/workflows/build.yml` **nuovo** (CI debug APK + unit tests).
 - `.github/workflows/release.yml` **nuovo** (CI release AAB, secrets required).
-- `lingolens-privacy/site/index.html` + `vercel.json` + `README.md` **nuovi** (Step 10, privacy policy 1-pagina).
+- `linguacam-privacy/site/index.html` + `vercel.json` + `README.md` **nuovi** (Step 10, privacy policy 1-pagina).
 
 Queste modifiche sono il risultato dei 12 step del refactor 2026-07-24. Il `PROGRESS.md` originale **non le elencava**.

@@ -1,4 +1,4 @@
-name: LingoLens Build
+name: LinguaCam Build
 
 on:
   push:

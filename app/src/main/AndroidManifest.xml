@@ -17,12 +17,12 @@
         android:required="false" />
 
     <application
-        android:name=".LingoLensApp"
+        android:name=".LinguaCamApp"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:label="@string/app_name"
-        android:theme="@style/Theme.LingoLens"
+        android:theme="@style/Theme.LinguaCam"
         android:supportsRtl="true">
 
         <activity

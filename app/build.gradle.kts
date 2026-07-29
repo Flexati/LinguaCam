@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.lingolens"
+    namespace = "com.linguacam"
     compileSdk = 34 // INFERRED
 
     defaultConfig {
-        applicationId = "com.lingolens"
+        applicationId = "com.linguacam"
         minSdk = 24 // INFERRED
         targetSdk = 34 // INFERRED
         versionCode = 1
@@ -26,7 +26,7 @@ android {
         }
     }
 
-    // Step 5: signingConfigs.release legge da ~/.lingolens/keystore.properties (fuori dal repo).
+    // Step 5: signingConfigs.release legge da ~/.linguacam/keystore.properties (fuori dal repo).
     // Il file NON viene committato. Vedi docs/RELEASE.md.
     signingConfigs {
         create("release") {
@@ -53,21 +53,21 @@ android {
 
     // ============================================================
     // Step 5 + 5-bis — funzione di lettura keystore properties
-    // 1) Locale dev: ~/.lingolens/keystore.properties
-    // 2) CI mode: env-vars LINGOLENS_KEYSTORE_FILE + KEYSTORE_PASSWORD + KEY_ALIAS + KEY_PASSWORD
+    // 1) Locale dev: ~/.linguacam/keystore.properties
+    // 2) CI mode: env-vars LINGUACAM_KEYSTORE_FILE + KEYSTORE_PASSWORD + KEY_ALIAS + KEY_PASSWORD
     // 3) Nessuna config: ritorna null — build debug OK, release senza firma (warn, non blocca)
     // ============================================================
     fun loadKeystoreProperties(): java.util.Properties? {
-        val keystoreFile = file("${System.getProperty("user.home")}/.lingolens/keystore.properties")
+        val keystoreFile = file("${System.getProperty("user.home")}/.linguacam/keystore.properties")
         if (keystoreFile.exists()) {
             val props = java.util.Properties()
             keystoreFile.inputStream().use { props.load(it) }
             return props
         }
-        val envStoreFile = System.getenv("LINGOLENS_KEYSTORE_FILE")
-        val envStorePassword = System.getenv("LINGOLENS_KEYSTORE_PASSWORD")
-        val envKeyAlias = System.getenv("LINGOLENS_KEY_ALIAS")
-        val envKeyPassword = System.getenv("LINGOLENS_KEY_PASSWORD")
+        val envStoreFile = System.getenv("LINGUACAM_KEYSTORE_FILE")
+        val envStorePassword = System.getenv("LINGUACAM_KEYSTORE_PASSWORD")
+        val envKeyAlias = System.getenv("LINGUACAM_KEY_ALIAS")
+        val envKeyPassword = System.getenv("LINGUACAM_KEY_PASSWORD")
         if (envStoreFile != null && envStorePassword != null && envKeyAlias != null && envKeyPassword != null) {
             val envProps = java.util.Properties()
             envProps.setProperty("storeFile", envStoreFile)

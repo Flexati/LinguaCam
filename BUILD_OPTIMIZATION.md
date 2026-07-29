@@ -1,4 +1,4 @@
-# LingoLens — Build Optimization Guide
+# LinguaCam — Build Optimization Guide
 
 **Versione**: v1.0  
 **Ultimo Aggiornamento**: 22 Luglio 2026
@@ -14,7 +14,7 @@ android {
     compileSdk 34
     
     defaultConfig {
-        applicationId "com.lingolens"
+        applicationId "com.linguacam"
         minSdk 24
         targetSdk 34
         versionCode 1
@@ -72,7 +72,7 @@ android {
 
 ```proguard
 # Keep application classes
--keep class com.lingolens.** { *; }
+-keep class com.linguacam.** { *; }
 
 # Keep Jetpack Compose
 -keep class androidx.compose.** { *; }

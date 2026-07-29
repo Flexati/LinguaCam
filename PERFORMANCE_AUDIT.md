@@ -1,4 +1,4 @@
-# LingoLens — Performance & Security Audit Report
+# LinguaCam — Performance & Security Audit Report
 
 **Sessione**: 5 (Loop 7 - Release Audit)  
 **Data**: 22 Luglio 2026  
@@ -295,7 +295,7 @@ buildTypes {
 
 **APPROVED FOR RELEASE** ✅
 
-LingoLens v1.0 è pronto per il rilascio su Google Play Store. Tutti i criteri di qualità, performance, security e compliance sono stati soddisfatti.
+LinguaCam v1.0 è pronto per il rilascio su Google Play Store. Tutti i criteri di qualità, performance, security e compliance sono stati soddisfatti.
 
 **Firma Audit**: Loop 7 - Release Audit Completed
 **Data**: 22 Luglio 2026
@@ -341,7 +341,7 @@ L'audit dichiara valori specifici (es. "78% CPU") che non sono il risultato di u
 **Audit di Compliance**:
 
 - ⚠️ Content rating "Everyone" dovrà essere **dichiarato in Play Console**, non solo in questo file.
-- ⚠️ Privacy policy URL da inserire in Play Console (vedi Step 10 `lingolens-privacy/`).
+- ⚠️ Privacy policy URL da inserire in Play Console (vedi Step 10 `linguacam-privacy/`).
 - ✅ Accessibility (TalkBack, contrasto WCAG): verificabile con `accessibilityScanner` di Android Studio. Da eseguire post-build.
 
 ---

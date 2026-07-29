@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">LingoLens</string>
+    <string name="app_name">LinguaCam</string>
     <string name="app_description">Traduci il mondo intorno a te. Anche senza internet.</string>
     
     <!-- Camera & Translation -->
     <string name="camera_permission_denied">Permesso fotocamera negato</string>
-    <string name="camera_permission_request">LingoLens ha bisogno dell\'accesso alla fotocamera</string>
+    <string name="camera_permission_request">LinguaCam ha bisogno dell\'accesso alla fotocamera</string>
     <string name="camera_permission_grant">Concedi permesso</string>
     
     <!-- Language Management -->

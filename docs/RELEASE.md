@@ -1,19 +1,19 @@
-# Release build instructions — LingoLens
+# Release build instructions — LinguaCam
 
 ## One-time setup
 
 ### 1. Genera il keystore (esegui UNA volta sola, conserva per sempre)
 
 ```bash
-mkdir -p ~/.lingolens
+mkdir -p ~/.linguacam
 keytool -genkey -v \
-  -keystore ~/.lingolens/release.jks \
+  -keystore ~/.linguacam/release.jks \
   -keyalg RSA -keysize 2048 \
   -validity 10000 \
-  -alias lingolens \
+  -alias linguacam \
   -storepass <SCEGLI_PASSWORD_SICURA> \
   -keypass   <SCEGLI_PASSWORD_SICURA> \
-  -dname "CN=LingoLens, OU=Mobile, O=LingoLens, L=IT, C=IT"
+  -dname "CN=LinguaCam, OU=Mobile, O=LinguaCam, L=IT, C=IT"
 ```
 
 **ATTENZIONE**:
@@ -22,28 +22,28 @@ keytool -genkey -v \
 - **NON committare** `release.jks`. NON condividerlo in chat. NON scriverlo in `local.properties`
 - **Perderai la possibilità di aggiornare su Play Store se perdi questo file.** Conservalo su almeno 2 posti (es. cloud cifrato + USB cifrato)
 
-### 2. Crea il file `~/.lingolens/keystore.properties`
+### 2. Crea il file `~/.linguacam/keystore.properties`
 
 ```properties
-storeFile=/home/<TUO_USER>/.lingolens/release.jks
+storeFile=/home/<TUO_USER>/.linguacam/release.jks
 storePassword=<la store password che hai scelto>
-keyAlias=lingolens
+keyAlias=linguacam
 keyPassword=<la key password che hai scelto>
 ```
 
 Modo rapido:
 
 ```bash
-cat > ~/.lingolens/keystore.properties <<EOF
-storeFile=\${HOME}/.lingolens/release.jks
+cat > ~/.linguacam/keystore.properties <<EOF
+storeFile=\${HOME}/.linguacam/release.jks
 storePassword=__SOSTITUISCI__
-keyAlias=lingolens
+keyAlias=linguacam
 keyPassword=__SOSTITUISCI__
 EOF
-chmod 600 ~/.lingolens/keystore.properties
+chmod 600 ~/.linguacam/keystore.properties
 ```
 
-Poi con `nano ~/.lingolens/keystore.properties` sostituisci `__SOSTITUISCI__` con le tue password vere.
+Poi con `nano ~/.linguacam/keystore.properties` sostituisci `__SOSTITUISCI__` con le tue password vere.
 
 **NON** mettere password in `local.properties`.
 **NON** mettere `keystore.properties` dentro al repo.
@@ -52,7 +52,7 @@ Poi con `nano ~/.lingolens/keystore.properties` sostituisci `__SOSTITUISCI__` co
 ### 3. Build release AAB
 
 ```bash
-cd /path/to/lingolens_working
+cd /path/to/linguacam_working
 ./gradlew bundleRelease
 ```
 
@@ -97,7 +97,7 @@ Output atteso: `native-code: 'arm64-v8a' 'x86_64'`
 
 | Errore | Causa | Fix |
 |---|---|---|
-| `Keystore was tampered with, or password was incorrect` | password sbagliata | reinserisci `~/.lingolens/keystore.properties` |
-| `Keystore file not set for signing config release` | file mancante | crea `~/.lingolens/keystore.properties` come sopra |
-| `Execution failed for task ':app:packageReleaseBundle'` | path storeFile non assoluto | usa `storeFile=/home/NOME/.lingolens/release.jks` (path assoluto) |
+| `Keystore was tampered with, or password was incorrect` | password sbagliata | reinserisci `~/.linguacam/keystore.properties` |
+| `Keystore file not set for signing config release` | file mancante | crea `~/.linguacam/keystore.properties` come sopra |
+| `Execution failed for task ':app:packageReleaseBundle'` | path storeFile non assoluto | usa `storeFile=/home/NOME/.linguacam/release.jks` (path assoluto) |
 | `keytool: command not found` | JDK non installato | `apt install openjdk-17-jdk-headless` |

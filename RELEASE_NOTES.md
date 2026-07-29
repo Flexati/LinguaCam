@@ -1,4 +1,4 @@
-# LingoLens v1.0 — Release Notes
+# LinguaCam v1.0 — Release Notes
 
 **Release Date**: 22 Luglio 2026  
 **Platform**: Android 6.0+ (API 24)  
@@ -6,9 +6,9 @@
 
 ---
 
-## 🎉 Benvenuto in LingoLens!
+## 🎉 Benvenuto in LinguaCam!
 
-LingoLens è l'app di traduzione visuale che trasforma il tuo smartphone in un traduttore universale. Punta la fotocamera verso qualsiasi testo e leggi la traduzione istantaneamente, anche senza internet.
+LinguaCam è l'app di traduzione visuale che trasforma il tuo smartphone in un traduttore universale. Punta la fotocamera verso qualsiasi testo e leggi la traduzione istantaneamente, anche senza internet.
 
 ---
 
@@ -66,7 +66,7 @@ LingoLens è l'app di traduzione visuale che trasforma il tuo smartphone in un t
 ## 🚀 Come Iniziare
 
 ### Installazione
-1. Scarica LingoLens da Google Play Store
+1. Scarica LinguaCam da Google Play Store
 2. Installa l'app (49 MB)
 3. Apri e completa l'onboarding
 
@@ -153,7 +153,7 @@ LingoLens è l'app di traduzione visuale che trasforma il tuo smartphone in un t
 
 ### FAQ
 
-**Q: LingoLens funziona offline?**  
+**Q: LinguaCam funziona offline?**  
 A: Sì, 100%. Dopo il download dei modelli, funziona completamente senza internet.
 
 **Q: I miei dati sono privati?**  
@@ -185,7 +185,7 @@ A: Sì, entro 15 giorni dall'acquisto tramite Google Play.
 
 ## 🙏 Ringraziamenti
 
-LingoLens è costruito con:
+LinguaCam è costruito con:
 - **Jetpack Compose**: UI moderna e fluida
 - **ML Kit**: OCR e traduzione on-device
 - **Material Design 3**: Accessibilità e bellezza
@@ -201,8 +201,8 @@ LingoLens è costruito con:
 
 ---
 
-**Grazie per aver scelto LingoLens!**
+**Grazie per aver scelto LinguaCam!**
 
 Traduci il mondo intorno a te. Offline, privato, veloce.
 
-🌍 **LingoLens v1.0** — Ready for the World
+🌍 **LinguaCam v1.0** — Ready for the World

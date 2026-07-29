@@ -1,12 +1,12 @@
-# LingoLens — Offline Camera Translator
+# LinguaCam — Offline Camera Translator
 
-**LingoLens** è un'applicazione Android di traduzione visuale offline-first. L'app utilizza la fotocamera del dispositivo per riconoscere il testo e tradurlo in tempo reale, senza richiedere una connessione internet.
+**LinguaCam** è un'applicazione Android di traduzione visuale offline-first. L'app utilizza la fotocamera del dispositivo per riconoscere il testo e tradurlo in tempo reale, senza richiedere una connessione internet.
 
 ## 🎯 Visione del Prodotto
 
 > "Traduci il mondo intorno a te. Anche senza internet."
 
-LingoLens è pensata per i viaggiatori, gli espatriati e chiunque si trovi in un luogo straniero con una connessione internet limitata o assente. L'app funziona completamente offline dopo il download iniziale dei modelli linguistici.
+LinguaCam è pensata per i viaggiatori, gli espatriati e chiunque si trovi in un luogo straniero con una connessione internet limitata o assente. L'app funziona completamente offline dopo il download iniziale dei modelli linguistici.
 
 ## ✨ Caratteristiche Principali
 
@@ -44,7 +44,7 @@ LingoLens è pensata per i viaggiatori, gli espatriati e chiunque si trovi in un
 
 ## 📋 Lingue Supportate
 
-LingoLens supporta le seguenti 20 lingue al lancio:
+LinguaCam supporta le seguenti 20 lingue al lancio:
 
 | Codice | Lingua | Nativo |
 |--------|--------|--------|
@@ -71,7 +71,7 @@ LingoLens supporta le seguenti 20 lingue al lancio:
 
 ## 🏗 Architettura
 
-LingoLens segue il pattern **MVVM** con **Clean Architecture**:
+LinguaCam segue il pattern **MVVM** con **Clean Architecture**:
 
 ```
 app/
@@ -119,8 +119,8 @@ app/
 
 ```bash
 # Clone il repository
-git clone https://github.com/yourusername/lingolens.git
-cd lingolens
+git clone https://github.com/yourusername/linguacam.git
+cd linguacam
 
 # Build debug APK
 ./gradlew assembleDebug
@@ -163,7 +163,7 @@ Consulta `PROGRESS.md` per dettagli completi.
 
 ## 🎨 Design System
 
-LingoLens utilizza **Material 3** con una palette colore moderna:
+LinguaCam utilizza **Material 3** con una palette colore moderna:
 
 | Colore | Hex | Utilizzo |
 |--------|-----|----------|
@@ -175,7 +175,7 @@ LingoLens utilizza **Material 3** con una palette colore moderna:
 
 ## 📝 Licenza
 
-LingoLens è distribuito sotto licenza [MIT](LICENSE).
+LinguaCam è distribuito sotto licenza [MIT](LICENSE).
 
 ## 👥 Autore
 
@@ -208,7 +208,7 @@ Sviluppato da **Manus AI** per Loop Engineering.
 
 **Cosa serve ancora per Play Store**:
 1. Eseguire `./gradlew assembleDebug` con JDK 17 + Android SDK
-2. Generare keystore release (`keytool -genkey ...`) e conservarlo in `~/.lingolens/release.jks`
+2. Generare keystore release (`keytool -genkey ...`) e conservarlo in `~/.linguacam/release.jks`
 3. Eseguire `./gradlew bundleRelease`
 4. Creare app su Play Console, prodotto in-app `pro_plan` (€4.99), Data Safety, Privacy policy URL
 5. Testare l'AAB come Internal Tester prima della produzione

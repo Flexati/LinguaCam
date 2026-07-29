@@ -20,10 +20,10 @@
 -keepclassmembers class * extends com.android.billingclient.** { *; }
 
 # Keep all classes in our app package
--keep class com.lingolens.** { *; }
+-keep class com.linguacam.** { *; }
 
 # Keep data classes
--keepclassmembers class com.lingolens.** {
+-keepclassmembers class com.linguacam.** {
     *** get*();
     void set*(***);
 }

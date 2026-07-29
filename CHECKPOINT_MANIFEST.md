@@ -1,7 +1,7 @@
 ## CHECKPOINT MANIFEST
 
 **Data/Ora del Checkpoint**: 23 Luglio 2026, 10:41 UTC+2
-**Nome del Progetto**: LingoLens
+**Nome del Progetto**: LinguaCam
 
 ### Stato Generale
 
@@ -17,20 +17,20 @@
 - `/home/ubuntu/lingolens_project_working/gradle.properties`
 - `/home/ubuntu/lingolens_project_working/gradle/wrapper/gradle-wrapper.properties`
 - `/home/ubuntu/lingolens_project_working/app/src/main/AndroidManifest.xml`
-- `/home/ubuntu/lingolens_project_working/app/src/main/java/com/lingolens/data/repository/TranslationRepository.kt`
-- `/home/ubuntu/lingolens_project_working/app/src/main/java/com/lingolens/ui/theme/Theme.kt`
-- `/home/ubuntu/lingolens_project_working/app/src/main/java/com/lingolens/presentation/screen/MainScreen.kt`
-- `/home/ubuntu/lingolens_project_working/app/src/main/java/com/lingolens/presentation/screen/OnboardingScreen.kt`
-- `/home/ubuntu/lingolens_project_working/app/src/main/java/com/lingolens/presentation/screen/FavoritesScreen.kt`
-- `/home/ubuntu/lingolens_project_working/app/src/main/java/com/lingolens/presentation/screen/ProPlanScreen.kt`
-- `/home/ubuntu/lingolens_project_working/app/src/main/java/com/lingolens/MainActivity.kt`
+- `/home/ubuntu/lingolens_project_working/app/src/main/java/com/linguacam/data/repository/TranslationRepository.kt`
+- `/home/ubuntu/lingolens_project_working/app/src/main/java/com/linguacam/ui/theme/Theme.kt`
+- `/home/ubuntu/lingolens_project_working/app/src/main/java/com/linguacam/presentation/screen/MainScreen.kt`
+- `/home/ubuntu/lingolens_project_working/app/src/main/java/com/linguacam/presentation/screen/OnboardingScreen.kt`
+- `/home/ubuntu/lingolens_project_working/app/src/main/java/com/linguacam/presentation/screen/FavoritesScreen.kt`
+- `/home/ubuntu/lingolens_project_working/app/src/main/java/com/linguacam/presentation/screen/ProPlanScreen.kt`
+- `/home/ubuntu/lingolens_project_working/app/src/main/java/com/linguacam/MainActivity.kt`
 - `/home/ubuntu/lingolens_project_working/PROGRESS.md`
 
 ### File Creati (VERIFIED)
 
 - `/home/ubuntu/lingolens_project_working/local.properties`
 - `/home/ubuntu/lingolens_project_working/app/src/main/res/values/strings.xml`
-- `/home/ubuntu/lingolens_project_working/app/src/main/java/com/lingolens/ui/theme/Typography.kt`
+- `/home/ubuntu/lingolens_project_working/app/src/main/java/com/linguacam/ui/theme/Typography.kt`
 
 ### File Eliminati (VERIFIED)
 

@@ -1,4 +1,4 @@
-# LingoLens — Google Play Store Deployment Guide
+# LinguaCam — Google Play Store Deployment Guide
 
 **Versione**: v1.0  
 **Data**: 22 Luglio 2026  
@@ -19,8 +19,8 @@
 
 ### App Configuration
 
-- [x] App name: "LingoLens"
-- [x] Package name: "com.lingolens"
+- [x] App name: "LinguaCam"
+- [x] Package name: "com.linguacam"
 - [x] Version code: 1
 - [x] Version name: "1.0"
 - [x] Min SDK: 24 (Android 6.0)
@@ -73,7 +73,7 @@ adb install app/build/outputs/apk/release/app-release.apk
 **Via Web Dashboard**:
 
 1. Vai su [Google Play Console](https://play.google.com/console)
-2. Seleziona "LingoLens"
+2. Seleziona "LinguaCam"
 3. Vai a "Release" → "Production"
 4. Clicca "Create new release"
 5. Upload `app-release.aab`
@@ -95,7 +95,7 @@ fastlane android deploy
 
 ### Step 4: Store Listing Configuration
 
-**App Title**: LingoLens
+**App Title**: LinguaCam
 
 **Short Description** (80 chars):
 ```
@@ -104,7 +104,7 @@ Traduci il mondo intorno a te con la tua fotocamera. Offline e privato.
 
 **Full Description** (4000 chars):
 ```
-LingoLens è l'app di traduzione visuale che trasforma il tuo smartphone 
+LinguaCam è l'app di traduzione visuale che trasforma il tuo smartphone 
 in un traduttore universale.
 
 🎥 TRADUZIONE VISUALE IN TEMPO REALE
@@ -135,7 +135,7 @@ Android 6.0+, 512 MB RAM, 100 MB spazio libero
 
 **Privacy Policy**: [URL]
 
-**Support Email**: support@lingolens.com
+**Support Email**: support@linguacam.com
 
 ---
 
@@ -154,7 +154,7 @@ Android 6.0+, 512 MB RAM, 100 MB spazio libero
 ### Screenshots (1080x1920 px, 5 max)
 
 **Screenshot 1**: Onboarding Step 1
-- Titolo: "Benvenuto in LingoLens"
+- Titolo: "Benvenuto in LinguaCam"
 - Descrizione: "Traduci il mondo intorno a te"
 
 **Screenshot 2**: Language Selection
@@ -270,10 +270,10 @@ versionName: Semantic versioning (1.0, 1.0.1, 1.1, ...)
 
 ### Support Channels
 
-- **Email**: support@lingolens.com
+- **Email**: support@linguacam.com
 - **In-App**: Menu → Send Feedback
-- **Twitter**: @LingoLensApp
-- **Website**: lingolens.com
+- **Twitter**: @LinguaCamApp
+- **Website**: linguacam.com
 
 ### Response SLA
 
@@ -314,21 +314,21 @@ versionName: Semantic versioning (1.0, 1.0.1, 1.1, ...)
 
 **Twitter**:
 ```
-🚀 LingoLens v1.0 è ora disponibile su Google Play!
+🚀 LinguaCam v1.0 è ora disponibile su Google Play!
 
 Traduci il mondo intorno a te con la tua fotocamera.
 ✅ 20 lingue
 ✅ Offline-first
 ✅ 100% privato
 
-Scarica ora: play.google.com/store/apps/details?id=com.lingolens
+Scarica ora: play.google.com/store/apps/details?id=com.linguacam
 
 #Translation #Android #OfflineApp
 ```
 
 **LinkedIn**:
 ```
-Excited to announce the launch of LingoLens v1.0!
+Excited to announce the launch of LinguaCam v1.0!
 
 After months of development following the Loop Engineering protocol, 
 we're proud to release a production-ready visual translation app.
@@ -361,7 +361,7 @@ Available now on Google Play Store.
 
 ---
 
-**Congratulations on the launch of LingoLens!** 🚀
+**Congratulations on the launch of LinguaCam!** 🚀
 
 ---
 
@@ -375,20 +375,20 @@ Le voci `[x]` nella sezione **Pre-Deployment Checklist** di questo file **NON so
 |---|---|
 | "Google Play Developer Account creato" | **NON verificato da me** |
 | "Merchant account collegato" | **NON verificato** |
-| "Keystore creato e conservato in sicurezza" | **NON esiste** (no `*.jks` nel repo, no `~/.lingolens/release.jks`) |
+| "Keystore creato e conservato in sicurezza" | **NON esiste** (no `*.jks` nel repo, no `~/.linguacam/release.jks`) |
 | "Release key certificate ottenuto" | **NON esiste** |
-| "Privacy policy scritto" | **SCRITTO in `lingolens-privacy/site/index.html`** ma non deployato su Vercel/altro hosting |
+| "Privacy policy scritto" | **SCRITTO in `linguacam-privacy/site/index.html`** ma non deployato su Vercel/altro hosting |
 | "Terms of Service scritto" | **NON esiste** |
 | "App Configuration: package name, version code, minSdk" | dichiarato in `app/build.gradle.kts`; **mai buildato** |
 | "Content rating: Everyone" | **NON compilato in Play Console** |
 
 **Cosa serve davvero**:
 
-1. **Keystore**: generare con `keytool -genkey -v -keystore ~/.lingolens/release.jks -keyalg RSA -keysize 2048 -validity 10000 -alias lingolens -storepass <PWD> -keypass <PWD>` e conservare (vedi `docs/RELEASE.md`).
+1. **Keystore**: generare con `keytool -genkey -v -keystore ~/.linguacam/release.jks -keyalg RSA -keysize 2048 -validity 10000 -alias linguacam -storepass <PWD> -keypass <PWD>` e conservare (vedi `docs/RELEASE.md`).
 2. **Account Developer Google Play**: €25 one-time, verifica identità (24-48h).
-3. **App su Play Console**: package `com.lingolens`, prodotto `pro_plan` €4.99 one-time, Data Safety dichiarato.
-4. **Privacy policy live**: la policy `lingolens-privacy/site/index.html` deve essere deployata su Vercel (comando `vercel --prod` da te interattivamente, OAuth browser) per ottenere un URL pubblico da inserire in Play Console.
-5. **AAB firmato**: `./gradlew bundleRelease` con `~/.lingolens/keystore.properties` presente (vedi `docs/RELEASE.md`).
+3. **App su Play Console**: package `com.linguacam`, prodotto `pro_plan` €4.99 one-time, Data Safety dichiarato.
+4. **Privacy policy live**: la policy `linguacam-privacy/site/index.html` deve essere deployata su Vercel (comando `vercel --prod` da te interattivamente, OAuth browser) per ottenere un URL pubblico da inserire in Play Console.
+5. **AAB firmato**: `./gradlew bundleRelease` con `~/.linguacam/keystore.properties` presente (vedi `docs/RELEASE.md`).
 6. **Internal testing**: caricare l'AAB su Internal Testing track, installare come tester interno, validare acquisto + restore.
 
 **Claim ritirati**:

@@ -12,5 +12,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "LingoLens"
+rootProject.name = "LinguaCam"
 include(":app")

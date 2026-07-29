@@ -1,4 +1,4 @@
-# Reality Check — LingoLens (2026-07-27)
+# Reality Check — LinguaCam (2026-07-27)
 
 Stato reale del progetto dopo il refactor 12-step (2026-07-24 → 2026-07-27).
 
@@ -6,7 +6,7 @@ Stato reale del progetto dopo il refactor 12-step (2026-07-24 → 2026-07-27).
 
 - Codice Kotlin ricompilato a Step 1-11 (Billing reale, Camera YUV, ML Kit reale, OCR script-aware)
 - 5 nuovi test JVM puri (`MainViewModelTest`, `BillingPresenterTest`, `LanguageModelRepositoryTest`, `OcrRepositoryTest`, `TranslationRepositoryTest`)
-- Privacy policy scritta (`lingolens-privacy/site/index.html`)
+- Privacy policy scritta (`linguacam-privacy/site/index.html`)
 - CI GitHub Actions definita (`.github/workflows/build.yml` + `release.yml`)
 - Keystore config pronta (`app/build.gradle.kts` env-vars fallback)
 - 4 `.md` esistenti aggiornati con append **Reality Check**
@@ -15,11 +15,11 @@ Stato reale del progetto dopo il refactor 12-step (2026-07-24 → 2026-07-27).
 
 - **Nessuna build eseguita**: `./gradlew assembleDebug` e `./gradlew bundleRelease` non girati in questa sessione
 - **Nessun APK / AAB prodotto** nel repo
-- **Nessun keystore release**: `~/.lingolens/release.jks` non esiste (to-do Step 5 manuale)
+- **Nessun keystore release**: `~/.linguacam/release.jks` non esiste (to-do Step 5 manuale)
 - **Nessun upload Play Console**: serve Step 6 manuale
 - **Vecchi test** `FavoritesRepositoryTest`, `PreferencesRepositoryTest` richiedono Robolectric (non eseguito in JVM puro)
 - **Performance metrics** in `PERFORMANCE_AUDIT.md` non misurati — sono stime letterarie
-- **Privacy policy URL** non pubblicato (file scritti in `lingolens-privacy/`, ma `vercel --prod` non eseguito)
+- **Privacy policy URL** non pubblicato (file scritti in `linguacam-privacy/`, ma `vercel --prod` non eseguito)
 
 ## Da fare (utente) per arrivare a Play Store
 

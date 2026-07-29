@@ -1,4 +1,4 @@
-# LingoLens — Protocollo di Sviluppo Rigoroso
+# LinguaCam — Protocollo di Sviluppo Rigoroso
 
 ## 🎯 Principio Fondamentale
 
@@ -249,7 +249,7 @@ Usa questa checklist per ogni modifica al codice:
 
 ### Organizzazione dei File
 ```
-app/src/main/java/com/lingolens/
+app/src/main/java/com/linguacam/
 ├── domain/
 │   ├── model/          # Data classes (Language, TranslationResult)
 │   └── usecase/        # Business logic

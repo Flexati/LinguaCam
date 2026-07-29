@@ -1,4 +1,4 @@
-name: LingoLens Release Bundle
+name: LinguaCam Release Bundle
 
 on:
   workflow_dispatch:

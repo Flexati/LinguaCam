@@ -1,4 +1,4 @@
-package com.lingolens.data.repository
+package com.linguacam.data.repository
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue

@@ -1,4 +1,4 @@
-package com.lingolens.presentation.viewmodel
+package com.linguacam.presentation.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import kotlinx.coroutines.Dispatchers

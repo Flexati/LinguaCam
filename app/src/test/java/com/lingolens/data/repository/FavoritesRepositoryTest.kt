@@ -1,4 +1,4 @@
-package com.lingolens.data.repository
+package com.linguacam.data.repository
 
 import android.content.Context
 import androidx.datastore.core.DataStore

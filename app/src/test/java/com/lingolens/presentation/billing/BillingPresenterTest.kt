@@ -1,8 +1,8 @@
-package com.lingolens.presentation.billing
+package com.linguacam.presentation.billing
 
-import com.lingolens.data.repository.BillingFlowResult
-import com.lingolens.data.repository.SubscriptionPlan
-import com.lingolens.data.repository.SubscriptionState
+import com.linguacam.data.repository.BillingFlowResult
+import com.linguacam.data.repository.SubscriptionPlan
+import com.linguacam.data.repository.SubscriptionState
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -10,7 +10,7 @@ import org.junit.Test
  * Test unitari puri (no Android runtime) per il contratto billing.
  *
  * Step 11: verifica che i sealed types e i data classes esposti
- * da [com.lingolens.data.repository.BillingContracts] siano shape-correct
+ * da [com.linguacam.data.repository.BillingContracts] siano shape-correct
  * per il presentation layer ([BillingPresenter]).
  */
 class BillingPresenterTest {

@@ -1,4 +1,4 @@
-package com.lingolens.util
+package com.linguacam.util
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
