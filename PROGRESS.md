@@ -464,3 +464,4 @@ LinguaCam v1.0 è completamente sviluppato, testato, auditato e pronto per il ri
 - `linguacam-privacy/site/index.html` + `vercel.json` + `README.md` **nuovi** (Step 10, privacy policy 1-pagina).
 
 Queste modifiche sono il risultato dei 12 step del refactor 2026-07-24. Il `PROGRESS.md` originale **non le elencava**.
+
