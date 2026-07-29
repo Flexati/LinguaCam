@@ -158,7 +158,7 @@ class TranslationRepository(
      */
     fun release() {
         translators.values.forEach { translator ->
-            translator.close()
+            translator?.close()
         }
         translators.clear()
     }
