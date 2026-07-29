@@ -16,6 +16,7 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
+import com.linguacam.BuildConfig
 import com.linguacam.data.repository.OcrRepository
 import com.linguacam.data.repository.RecognizedText
 import kotlinx.coroutines.CoroutineScope
@@ -59,7 +60,8 @@ class CameraManager(
             try {
                 cameraProvider = cameraProviderFuture.get()
                 bindCameraUseCases()
-                Timber.d("Camera inizializzata con successo")
+                // Fix P2-3: log di lifecycle wrappato in DEBUG guard per evitare spam in release.
+                if (BuildConfig.DEBUG) Timber.d("Camera inizializzata con successo")
             } catch (e: Exception) {
                 Timber.e(e, "Errore nell'inizializzazione della camera")
                 onError?.invoke("Errore camera: ${e.message}")
@@ -94,7 +96,8 @@ class CameraManager(
                 preview,
                 imageAnalysis
             )
-            Timber.d("Camera use cases legati con successo (BACK)")
+            // Fix P2-3: log di bind camera wrappato in DEBUG guard.
+            if (BuildConfig.DEBUG) Timber.d("Camera use cases legati con successo (BACK)")
         } catch (e: Exception) {
             // Fallback: FRONT camera
             Timber.w(e, "BACK camera non disponibile, provo FRONT")
@@ -106,7 +109,8 @@ class CameraManager(
                     preview,
                     imageAnalysis
                 )
-                Timber.d("Camera use cases legati con successo (FRONT fallback)")
+                // Fix P2-3: log di bind camera wrappato in DEBUG guard.
+                if (BuildConfig.DEBUG) Timber.d("Camera use cases legati con successo (FRONT fallback)")
             } catch (e2: Exception) {
                 Timber.e(e2, "Errore anche nel fallback FRONT")
                 onError?.invoke("Errore binding camera: ${e2.message}")
@@ -223,7 +227,8 @@ class CameraManager(
         try {
             cameraProvider?.unbindAll()
             cameraExecutor.shutdown()
-            Timber.d("Camera fermata")
+            // Fix P2-3: log di stop camera wrappato in DEBUG guard.
+            if (BuildConfig.DEBUG) Timber.d("Camera fermata")
         } catch (e: Exception) {
             Timber.e(e, "Errore nello stop della camera")
         }

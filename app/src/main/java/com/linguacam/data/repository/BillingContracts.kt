@@ -56,8 +56,27 @@ object BillingClientFactory {
         BillingRepository(context.applicationContext)
 }
 
-/** Prezzo mostrato in UI (verrà poi sostituito dal ProductDetails.oneTimePurchaseOfferDetails). */
-const val PRO_PLAN_PRICE_EUR: Double = 4.99
+/**
+ * Fix P1-8: prezzo mostrato in UI centralizzato in un unico object config.
+ * Verrà poi sostituito dal ProductDetails.oneTimePurchaseOfferDetails una volta
+ * disponibile la config server-side. Esposto come object per permettere l'import
+ * da qualsiasi modulo senza duplicazione.
+ */
+object BillingConfig {
+    const val PRO_PLAN_PRICE_EUR: Double = 4.99
+}
+
+/**
+ * Fix P1-8: alias top-level backward-compat per il prezzo.
+ * Mantenuto per non rompere i call-site esistenti (es. ProPlanScreen.kt).
+ * Deprecato: importare direttamente `BillingConfig.PRO_PLAN_PRICE_EUR` nei nuovi file.
+ */
+@Suppress("ConstPropertyName")
+@Deprecated(
+    message = "Use BillingConfig.PRO_PLAN_PRICE_EUR for the canonical source.",
+    replaceWith = ReplaceWith("BillingConfig.PRO_PLAN_PRICE_EUR")
+)
+const val PRO_PLAN_PRICE_EUR: Double = BillingConfig.PRO_PLAN_PRICE_EUR
 
 /**
  * Mapping helper: stato Purchase di Google -> verso tipi interni.

@@ -30,7 +30,9 @@ class BillingRepository(context: Context) : BillingRepositoryAPI {
 
     companion object {
         const val PRO_PLAN_SKU = "linguacam_pro"
-        const val PRO_PLAN_PRICE_EUR = 4.99
+        // Fix P1-8: PRO_PLAN_PRICE_EUR centralizzato in BillingConfig per evitare drift.
+        // Qui riusiamo il valore esposto dal modulo contracts.
+        val PRO_PLAN_PRICE_EUR: Double get() = BillingConfig.PRO_PLAN_PRICE_EUR
         private const val MAX_RECONNECT_ATTEMPTS = 3
         private const val RESPONSE_CODE_PRODUCT_NOT_READY = -1
     }
