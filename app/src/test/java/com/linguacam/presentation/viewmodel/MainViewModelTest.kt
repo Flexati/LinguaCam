@@ -59,12 +59,12 @@ class MainViewModelTest {
         langRepo = org.mockito.kotlin.mock {
             org.mockito.kotlin.whenever(it.installedLanguageCodes).thenReturn(installedFlow)
             org.mockito.kotlin.whenever(it.downloadState).thenReturn(downloadFlow)
-            org.mockito.kotlin.whenever(refreshInstalledLanguages()).thenAnswer { installedFlow.value }
-            org.mockito.kotlin.whenever(isLanguageInstalled(org.mockito.kotlin.any())).thenAnswer { invocation ->
+            org.mockito.kotlin.whenever(it.refreshInstalledLanguages()).thenAnswer { installedFlow.value }
+            org.mockito.kotlin.whenever(it.isLanguageInstalled(org.mockito.kotlin.any())).thenAnswer { invocation ->
                 val code = invocation.arguments[0] as String
                 installedFlow.value.contains(code)
             }
-            org.mockito.kotlin.whenever(canInstallLanguageOnFreePlan())
+            org.mockito.kotlin.whenever(it.canInstallLanguageOnFreePlan())
                 .thenAnswer { installedFlow.value.size < 2 }
         }
 

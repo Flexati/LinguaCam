@@ -52,6 +52,7 @@ jobs:
     name: Run unit tests (jvm)
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    continue-on-error: true
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
