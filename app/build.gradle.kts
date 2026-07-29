@@ -4,9 +4,39 @@ plugins {
     id("org.jetbrains.kotlin.plugin.serialization") version "1.9.20" // INFERRED - Updated to 1.9.20 for consistency
 }
 
+import java.util.Properties
+
 android {
     namespace = "com.linguacam"
     compileSdk = 34 // INFERRED
+
+    // ============================================================
+    // Step 5 + 5-bis — funzione di lettura keystore properties
+    // 1) Locale dev: ~/.linguacam/keystore.properties
+    // 2) CI mode: env-vars LINGUACAM_KEYSTORE_FILE + KEYSTORE_PASSWORD + KEY_ALIAS + KEY_PASSWORD
+    // 3) Nessuna config: ritorna null — build debug OK, release senza firma (warn, non blocca)
+    // ============================================================
+    fun loadKeystoreProperties(): Properties? {
+        val keystoreFile = file("${System.getProperty("user.home")}/.linguacam/keystore.properties")
+        if (keystoreFile.exists()) {
+            val props = Properties()
+            keystoreFile.inputStream().use { props.load(it) }
+            return props
+        }
+        val envStoreFile = System.getenv("LINGUACAM_KEYSTORE_FILE")
+        val envStorePassword = System.getenv("LINGUACAM_KEYSTORE_PASSWORD")
+        val envKeyAlias = System.getenv("LINGUACAM_KEY_ALIAS")
+        val envKeyPassword = System.getenv("LINGUACAM_KEY_PASSWORD")
+        if (envStoreFile != null && envStorePassword != null && envKeyAlias != null && envKeyPassword != null) {
+            val envProps = Properties()
+            envProps.setProperty("storeFile", envStoreFile)
+            envProps.setProperty("storePassword", envStorePassword)
+            envProps.setProperty("keyAlias", envKeyAlias)
+            envProps.setProperty("keyPassword", envKeyPassword)
+            return envProps
+        }
+        return null
+    }
 
     defaultConfig {
         applicationId = "com.linguacam"
@@ -52,32 +82,8 @@ android {
     }
 
     // ============================================================
-    // Step 5 + 5-bis — funzione di lettura keystore properties
-    // 1) Locale dev: ~/.linguacam/keystore.properties
-    // 2) CI mode: env-vars LINGUACAM_KEYSTORE_FILE + KEYSTORE_PASSWORD + KEY_ALIAS + KEY_PASSWORD
-    // 3) Nessuna config: ritorna null — build debug OK, release senza firma (warn, non blocca)
+    // Step 5 + 5-bis — funzione loadKeystoreProperties() definita in cima al blocco android {}
     // ============================================================
-    fun loadKeystoreProperties(): java.util.Properties? {
-        val keystoreFile = file("${System.getProperty("user.home")}/.linguacam/keystore.properties")
-        if (keystoreFile.exists()) {
-            val props = java.util.Properties()
-            keystoreFile.inputStream().use { props.load(it) }
-            return props
-        }
-        val envStoreFile = System.getenv("LINGUACAM_KEYSTORE_FILE")
-        val envStorePassword = System.getenv("LINGUACAM_KEYSTORE_PASSWORD")
-        val envKeyAlias = System.getenv("LINGUACAM_KEY_ALIAS")
-        val envKeyPassword = System.getenv("LINGUACAM_KEY_PASSWORD")
-        if (envStoreFile != null && envStorePassword != null && envKeyAlias != null && envKeyPassword != null) {
-            val envProps = java.util.Properties()
-            envProps.setProperty("storeFile", envStoreFile)
-            envProps.setProperty("storePassword", envStorePassword)
-            envProps.setProperty("keyAlias", envKeyAlias)
-            envProps.setProperty("keyPassword", envKeyPassword)
-            return envProps
-        }
-        return null
-    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
