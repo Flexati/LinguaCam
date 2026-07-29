@@ -31,8 +31,9 @@ jobs:
 
       - name: Install Android SDK packages
         run: |
+          set +o pipefail
           export PATH="$ANDROID_HOME/cmdline-tools/latest/bin:$PATH"
-          yes | sdkmanager --licenses
+          yes | sdkmanager --licenses >/dev/null 2>&1 || true
           sdkmanager --install "platforms;android-34" "build-tools;34.0.0" "platform-tools"
         shell: bash
 
@@ -70,8 +71,9 @@ jobs:
 
       - name: Install Android SDK packages
         run: |
+          set +o pipefail
           export PATH="$ANDROID_HOME/cmdline-tools/latest/bin:$PATH"
-          yes | sdkmanager --licenses
+          yes | sdkmanager --licenses >/dev/null 2>&1 || true
           sdkmanager --install "platforms;android-34" "build-tools;34.0.0" "platform-tools"
         shell: bash
 
