@@ -3,7 +3,7 @@ package com.linguacam.data.repository
 import com.google.mlkit.common.model.DownloadConditions
 import com.google.mlkit.common.model.RemoteModelManager
 import com.google.mlkit.nl.translate.TranslateLanguage
-import com.google.mlkit.nl.translate.Translation
+import com.google.mlkit.nl.translate.TranslateRemoteModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -47,7 +47,7 @@ class LanguageModelRepository {
     suspend fun refreshInstalledLanguages(): Set<String> = withContext(Dispatchers.IO) {
         val present = mutableSetOf<String>()
         for ((iso, mlKitLang) in SUPPORTED_MAP) {
-            val model = Translation.getModel(mlKitLang)
+            val model = TranslateRemoteModel.Builder(mlKitLang).build()
             val downloaded = remoteModelManager.isModelDownloaded(model).await()
             if (downloaded) present += iso
         }
@@ -74,21 +74,19 @@ class LanguageModelRepository {
                 ?: return@withContext Result.failure(
                     IllegalArgumentException("Lingua non supportata: $languageCode")
                 )
-            val model = Translation.getModel(mlKit)
+            val model = TranslateRemoteModel.Builder(mlKit).build()
 
             // Nessun vincolo di rete in v1.
             // Modello ML Kit ~15-25MB per lingua; in v1.1 valuteremo requireWifi().
             val conditions = DownloadConditions.Builder().build()
 
+            // ML Kit 17.0.0: RemoteModelManager.download() ritorna Task<Void> senza
+            // progress listener. Emettiamo uno stato "Downloading" placeholder e poi
+            // "Downloaded" al successo.
+            _downloadState.value = ModelDownloadState.Downloading(50)
+
             remoteModelManager
                 .download(model, conditions)
-                .addOnProgressListener { taskSnapshot ->
-                    val total = taskSnapshot.totalBytes
-                    val progress = if (total > 0) {
-                        (taskSnapshot.bytesDownloaded * 100L / total).toInt()
-                    } else 0
-                    _downloadState.value = ModelDownloadState.Downloading(progress)
-                }
                 .addOnSuccessListener {
                     _installedLanguageCodes.value =
                         _installedLanguageCodes.value + languageCode
@@ -119,7 +117,7 @@ class LanguageModelRepository {
                 ?: return@withContext Result.failure(
                     IllegalArgumentException("Lingua non supportata: $languageCode")
                 )
-            val model = Translation.getModel(mlKit)
+            val model = TranslateRemoteModel.Builder(mlKit).build()
             remoteModelManager.deleteDownloadedModel(model).await()
             _installedLanguageCodes.value =
                 _installedLanguageCodes.value - languageCode
@@ -168,16 +166,16 @@ class LanguageModelRepository {
             "pl" to TranslateLanguage.POLISH,
             "sv" to TranslateLanguage.SWEDISH,
             "da" to TranslateLanguage.DANISH,
-            "fi" to TranslateLanguage.FINISH,
+            "fi" to TranslateLanguage.FINNISH,
             "el" to TranslateLanguage.GREEK,
             "cs" to TranslateLanguage.CZECH
         )
     }
 }
 
-private fun <T> com.google.android.gms.tasks.Task<T>.await(): T =
-    suspendCancellableCoroutine { cont ->
+private suspend fun <T> com.google.android.gms.tasks.Task<T>.await(): T =
+    suspendCancellableCoroutine<T> { cont ->
         addOnSuccessListener { result -> cont.resume(result) }
         addOnFailureListener { e -> cont.resumeWithException(e) }
-        addOnCanceledListener { cont.cancel() }
+        addOnCanceledListener { cont.cancel(null) }
     }

@@ -7,7 +7,6 @@ import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClientStateListener
 import com.android.billingclient.api.BillingFlowParams
 import com.android.billingclient.api.BillingResult
-import com.android.billingclient.api.PendingPurchasesParams
 import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.Purchase
 import com.android.billingclient.api.PurchasesUpdatedListener
@@ -24,7 +23,9 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.suspendCancellableCoroutine
 import timber.log.Timber
+import kotlin.coroutines.resume
 
 class BillingRepository(context: Context) : BillingRepositoryAPI {
 
@@ -70,11 +71,7 @@ class BillingRepository(context: Context) : BillingRepositoryAPI {
 
     private val billingClient: BillingClient = BillingClient.newBuilder(context)
         .setListener(purchasesUpdatedListener)
-        .enablePendingPurchases(
-            PendingPurchasesParams.newBuilder()
-                .enableOneTimeProducts()
-                .build()
-        )
+        .enablePendingPurchases()
         .build()
 
     override fun setLaunchHandler(handler: ((ProductDetails) -> Unit)?) {
@@ -223,12 +220,18 @@ class BillingRepository(context: Context) : BillingRepositoryAPI {
         val params = QueryPurchasesParams.newBuilder()
             .setProductType(BillingClient.ProductType.INAPP)
             .build()
-        val result = billingClient.queryPurchasesAsync(params)
-        val paramResult = result.billingResult
-        if (paramResult.responseCode == BillingClient.BillingResponseCode.OK) {
-            result.purchasesList.forEach { handlePurchase(it) }
+        val resultPair: Pair<com.android.billingclient.api.BillingResult, List<com.android.billingclient.api.Purchase>> =
+            suspendCancellableCoroutine { cont ->
+                billingClient.queryPurchasesAsync(params) { billingResult, purchases ->
+                    cont.resume(billingResult to (purchases ?: emptyList()))
+                }
+            }
+        val billingResult = resultPair.first
+        val purchases = resultPair.second
+        if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+            purchases.forEach { handlePurchase(it) }
         } else {
-            Timber.w("queryPurchases failed: ${paramResult.debugMessage}")
+            Timber.w("queryPurchases failed: ${billingResult.debugMessage}")
         }
     }
 

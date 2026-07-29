@@ -5,9 +5,12 @@ import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.TextRecognizer
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.util.LinkedHashMap
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
 
 /**
  * Repository per il riconoscimento del testo (OCR) via ML Kit.
@@ -183,9 +186,9 @@ class OcrRepository {
 }
 
 private suspend fun <T> com.google.android.gms.tasks.Task<T>.await(): T {
-    return kotlinx.coroutines.suspendCancellableCoroutine { continuation ->
+    return suspendCancellableCoroutine { continuation ->
         addOnSuccessListener { result -> continuation.resume(result) }
         addOnFailureListener { exception -> continuation.resumeWithException(exception) }
-        addOnCanceledListener { continuation.cancel() }
+        addOnCanceledListener { continuation.cancel(null) }
     }
 }
