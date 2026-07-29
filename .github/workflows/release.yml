@@ -25,7 +25,9 @@ jobs:
         uses: android-actions/setup-android@v3
 
       - name: Accept Android SDK licenses
-        run: yes | sdkmanager --licenses
+        run: |
+          yes | sdkmanager --licenses || true
+          yes | sdkmanager --licenses
         shell: bash
 
       - name: Decode keystore from base64 secret
