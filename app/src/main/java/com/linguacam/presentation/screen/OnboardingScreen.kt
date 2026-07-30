@@ -3,7 +3,6 @@ package com.linguacam.presentation.screen
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
-import androidx.compose.animation.LocalReducedMotion
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
@@ -21,6 +20,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import android.provider.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -36,6 +36,24 @@ import timber.log.Timber
  * Step 3: Lingue disponibili
  * Step 4: Pronto a iniziare
  */
+
+/**
+ * Verifica se l'utente ha abilitato "Remove animations" nelle impostazioni di sistema.
+ * Usa [Settings.Global.ANIMATOR_DURATION_SCALE] (0 = disabilitate).
+ * Compatibile con Compose 1.5.x (LocalReducedMotion aggiunto in 1.7).
+ */
+private fun isReducedMotionEnabled(context: android.content.Context): Boolean {
+    return try {
+        Settings.Global.getFloat(
+            context.contentResolver,
+            Settings.Global.ANIMATOR_DURATION_SCALE,
+            1f
+        ) == 0f
+    } catch (e: Settings.SettingNotFoundException) {
+        false
+    }
+}
+
 @OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class, androidx.compose.animation.ExperimentalAnimationApi::class)
 @Composable
 fun OnboardingScreen(
@@ -45,6 +63,9 @@ fun OnboardingScreen(
     onSkip: () -> Unit,
     onComplete: () -> Unit
 ) {
+    val context = androidx.compose.ui.platform.LocalContext.current
+    val reducedMotion = remember { isReducedMotionEnabled(context) }
+
     Timber.d("OnboardingScreen rendering - step ${state.currentStep + 1}/${state.totalSteps}")
     
     Box(
@@ -80,7 +101,7 @@ fun OnboardingScreen(
                 AnimatedContent(
                     targetState = state.currentStep,
                     transitionSpec = {
-                        if (LocalReducedMotion.current) {
+                        if (reducedMotion) {
                             EnterTransition.None togetherWith ExitTransition.None
                         } else {
                             slideInHorizontally(initialOffsetX = { it }) + fadeIn() togetherWith
