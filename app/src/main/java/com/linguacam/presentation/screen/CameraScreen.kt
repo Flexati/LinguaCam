@@ -7,6 +7,7 @@ import androidx.camera.view.PreviewView
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CameraAlt
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -53,6 +54,7 @@ fun CameraScreen(
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val density = LocalDensity.current
+    val shutterView = androidx.compose.ui.platform.LocalView.current
     val ocrRepository = remember { OcrRepository() }
 
     // Step 4: propaga il cambio lingua al OCR repository per cambiare script ML Kit.
@@ -138,8 +140,10 @@ fun CameraScreen(
 
         // Se il permesso arriva DOPO la creazione del PreviewView, avviamo la camera.
         LaunchedEffect(previewView, permissionGranted) {
-            if (permissionGranted && previewView != null && cameraManager != null) {
-                cameraManager?.startCamera(previewView)
+            if (permissionGranted) {
+                previewView?.let { pv ->
+                    cameraManager?.startCamera(pv)
+                }
             }
         }
 
@@ -233,12 +237,11 @@ fun CameraScreen(
         // Shutter button per trigger manuale (oltre all'auto OCR continuo)
         FloatingActionButton(
             onClick = {
-                cameraManager?.let { cm ->
+                cameraManager?.let {
                     // Forza un nuovo frame di analisi — l'OCR loop è già attivo,
                     // questo è solo un feedback tattile/visivo per l'utente.
-                    val view = androidx.compose.ui.platform.LocalView.current
-                    view.performHapticFeedback(
-                        androidx.compose.ui.hapticfeedback.HapticFeedbackType.LongPress
+                    shutterView.performHapticFeedback(
+                        android.view.HapticFeedbackConstants.LONG_PRESS
                     )
                 }
             },

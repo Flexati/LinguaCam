@@ -51,7 +51,7 @@ fun MainScreen(
     var isSelectingSource by remember { mutableStateOf(true) }
 
     fun clickHaptic() {
-        view.performHapticFeedback(androidx.compose.ui.hapticfeedback.HapticFeedbackType.LongPress)
+        view.performHapticFeedback(android.view.HapticFeedbackConstants.LONG_PRESS)
     }
 
     Timber.d("MainScreen rendering")
@@ -410,8 +410,12 @@ private fun FavoriteButton(
     isSaving: Boolean,
     onFavoriteClick: () -> Unit
 ) {
+    val fbView = androidx.compose.ui.platform.LocalView.current
     Button(
-        onClick = { clickHaptic(); onFavoriteClick() },
+        onClick = {
+            fbView.performHapticFeedback(android.view.HapticFeedbackConstants.LONG_PRESS)
+            onFavoriteClick()
+        },
         modifier = Modifier.fillMaxWidth(),
         enabled = !isSaving,
         colors = ButtonDefaults.buttonColors(
