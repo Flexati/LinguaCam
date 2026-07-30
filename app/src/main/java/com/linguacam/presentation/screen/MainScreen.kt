@@ -424,7 +424,7 @@ private fun FavoriteButton(
         )
         Text(
             text = if (isFavorite) {
-                "Rimosso dai preferiti"
+                "Rimuovi dai preferiti"
             } else {
                 "Aggiungi ai preferiti"
             }

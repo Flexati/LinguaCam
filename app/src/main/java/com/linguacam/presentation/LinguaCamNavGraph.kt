@@ -9,8 +9,6 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -102,28 +100,21 @@ fun LinguaCamNavGraph(
             )
         }
 
-        // ─── Home (con bottom navigation) ──────────────────────────────
+        // ─── Home ──────────────────────────────────────────────────────
         composable("home") {
             val mainVm: MainViewModel = viewModel(
                 factory = MainViewModelFactory(appContext)
             )
 
-            Scaffold(
-                bottomBar = {
-                    BottomBar(navController = navController)
-                }
-            ) { innerPadding ->
-                MainScreen(
-                    viewModel = mainVm,
-                    onOpenCamera = { navController.navigate("camera") },
-                    onOpenFavorites = { navController.navigate("favorites") },
-                    onOpenProPlan = { navController.navigate("proplan") },
-                    modifier = Modifier.padding(innerPadding)
-                )
-            }
+            MainScreen(
+                viewModel = mainVm,
+                onOpenCamera = { navController.navigate("camera") },
+                onOpenFavorites = { navController.navigate("favorites") },
+                onOpenProPlan = { navController.navigate("proplan") }
+            )
         }
 
-        // ─── Camera (full-screen, no bottom bar) ───────────────────────
+        // ─── Camera (full-screen) ──────────────────────────────────────
         composable("camera") {
             val mainVm: MainViewModel = viewModel(
                 factory = MainViewModelFactory(appContext)
@@ -139,7 +130,7 @@ fun LinguaCamNavGraph(
             )
         }
 
-        // ─── Favorites (full-screen, no bottom bar) ────────────────────
+        // ─── Favorites (full-screen) ───────────────────────────────────
         composable("favorites") {
             val favoritesVm: FavoritesViewModel = viewModel(
                 factory = FavoritesViewModelFactory(appContext)
@@ -182,7 +173,7 @@ fun LinguaCamNavGraph(
             }
         }
 
-        // ─── Pro Plan (full-screen, no bottom bar) ─────────────────────
+        // ─── Pro Plan (full-screen) ────────────────────────────────────
         composable("proplan") {
             ProPlanScreen(
                 billing = billingRepository,
@@ -192,54 +183,3 @@ fun LinguaCamNavGraph(
         }
     }
 }
-
-/**
- * Bottom navigation bar: SOLO per "home".
- * Mostra 3 tab: Home / Camera / Favorites.
- * "proplan" non appare qui perché si raggiunge dalla TopAppBar della home.
- */
-@Composable
-private fun BottomBar(navController: NavHostController) {
-    val backStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = backStackEntry?.destination?.route
-
-    val items: List<BottomBarItem> = listOf(
-        BottomBarItem("home", "Home", Icons.Filled.Home),
-        BottomBarItem("camera", "Camera", Icons.Filled.CameraAlt),
-        BottomBarItem("favorites", "Preferiti", Icons.Filled.Star)
-    )
-
-    NavigationBar {
-        items.forEach { item ->
-            val selected = currentRoute?.let { route ->
-                backStackEntry?.destination?.hierarchy?.any { it.route == item.route }
-            } ?: (currentRoute == item.route)
-
-            NavigationBarItem(
-                selected = selected == true || currentRoute == item.route,
-                onClick = {
-                    navController.navigate(item.route) {
-                        popUpTo(navController.graph.findStartDestination().id) {
-                            saveState = true
-                        }
-                        launchSingleTop = true
-                        restoreState = true
-                    }
-                },
-                icon = {
-                    Icon(
-                        imageVector = item.icon,
-                        contentDescription = item.label
-                    )
-                },
-                label = { Text(item.label) }
-            )
-        }
-    }
-}
-
-private data class BottomBarItem(
-    val route: String,
-    val label: String,
-    val icon: ImageVector
-)
