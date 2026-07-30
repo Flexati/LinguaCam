@@ -139,7 +139,7 @@ fun CameraScreen(
         // Se il permesso arriva DOPO la creazione del PreviewView, avviamo la camera.
         LaunchedEffect(previewView, permissionGranted) {
             if (permissionGranted && previewView != null && cameraManager != null) {
-                cameraManager?.startCamera(previewView!!)
+                cameraManager?.startCamera(previewView)
             }
         }
 
@@ -191,7 +191,7 @@ fun CameraScreen(
             IconButton(
                 onClick = onClose,
                 modifier = Modifier
-                    .size(40.dp)
+                    .size(48.dp)
                     .background(
                         MaterialTheme.colorScheme.error.copy(alpha = 0.8f),
                         shape = MaterialTheme.shapes.small
@@ -228,6 +228,32 @@ fun CameraScreen(
                     )
                 }
             }
+        }
+
+        // Shutter button per trigger manuale (oltre all'auto OCR continuo)
+        FloatingActionButton(
+            onClick = {
+                cameraManager?.let { cm ->
+                    // Forza un nuovo frame di analisi — l'OCR loop è già attivo,
+                    // questo è solo un feedback tattile/visivo per l'utente.
+                    val view = androidx.compose.ui.platform.LocalView.current
+                    view.performHapticFeedback(
+                        androidx.compose.ui.hapticfeedback.HapticFeedbackType.LongPress
+                    )
+                }
+            },
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(24.dp)
+                .minimumInteractiveComponentSize(),
+            containerColor = MaterialTheme.colorScheme.primary,
+            contentColor = MaterialTheme.colorScheme.onPrimary
+        ) {
+            Icon(
+                Icons.Default.CameraAlt,
+                contentDescription = "Cattura",
+                modifier = Modifier.size(28.dp)
+            )
         }
     }
 }

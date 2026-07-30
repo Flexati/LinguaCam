@@ -197,7 +197,7 @@ fun ProPlanScreen(
                     )
 
                     Text(
-                        "€$PRO_PLAN_PRICE_EUR una tantum",
+                        "€${PRO_PLAN_PRICE_EUR} una tantum",
                         style = MaterialTheme.typography.titleLarge,
                         color = MaterialTheme.colorScheme.onPrimaryContainer,
                         modifier = Modifier.padding(top = 8.dp)
@@ -294,7 +294,7 @@ fun ProPlanScreen(
                         )
                     } else {
                         Text(
-                            "Acquista Pro - €$PRO_PLAN_PRICE_EUR",
+                            "Acquista Pro - €${PRO_PLAN_PRICE_EUR}",
                             style = MaterialTheme.typography.labelLarge,
                             color = Color.White
                         )

@@ -168,7 +168,10 @@ fun LinguaCamNavGraph(
                         .fillMaxSize()
                         .padding(innerPadding)
                 ) {
-                    FavoritesScreen(viewModel = favoritesVm)
+                    FavoritesScreen(
+                        viewModel = favoritesVm,
+                        onOpenCamera = { navController.navigate("camera") }
+                    )
                 }
             }
         }

@@ -1,6 +1,8 @@
 package com.linguacam.presentation.screen
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
@@ -21,6 +23,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.linguacam.data.repository.PRO_PLAN_PRICE_EUR
 import com.linguacam.presentation.viewmodel.OnboardingState
 import timber.log.Timber
 
@@ -32,6 +35,7 @@ import timber.log.Timber
  * Step 3: Lingue disponibili
  * Step 4: Pronto a iniziare
  */
+@OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class, androidx.compose.ui.ExperimentalComposeUiApi::class)
 @Composable
 fun OnboardingScreen(
     state: OnboardingState,
@@ -75,8 +79,12 @@ fun OnboardingScreen(
                 AnimatedContent(
                     targetState = state.currentStep,
                     transitionSpec = {
-                        slideInHorizontally(initialOffsetX = { it }) + fadeIn() togetherWith
-                        slideOutHorizontally(targetOffsetX = { -it }) + fadeOut()
+                        if (LocalReducedMotion.current) {
+                            EnterTransition.None togetherWith ExitTransition.None
+                        } else {
+                            slideInHorizontally(initialOffsetX = { it }) + fadeIn() togetherWith
+                            slideOutHorizontally(targetOffsetX = { -it }) + fadeOut()
+                        }
                     },
                     label = "onboarding_content"
                 ) { step ->
@@ -296,7 +304,7 @@ fun OnboardingStep3_Languages() {
         Spacer(modifier = Modifier.height(16.dp))
         
         Text(
-            "Piano Gratuito: Max 2 lingue\nPiano Pro: Lingue illimitate (€4.99)",
+            "Piano Gratuito: Max 2 lingue\nPiano Pro: Lingue illimitate (€${PRO_PLAN_PRICE_EUR})",
             style = MaterialTheme.typography.bodySmall,
             textAlign = TextAlign.Center,
             color = MaterialTheme.colorScheme.primary

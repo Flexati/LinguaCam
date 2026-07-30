@@ -91,7 +91,6 @@ fun TranslationOverlay(
                     text = translatedText,
                     style = MaterialTheme.typography.bodySmall,
                     color = Color.White,
-                    fontSize = 10.sp,
                     textAlign = TextAlign.Center,
                     maxLines = 2,
                     modifier = Modifier.fillMaxWidth()

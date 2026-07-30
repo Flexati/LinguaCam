@@ -45,9 +45,14 @@ fun MainScreen(
     onOpenFavorites: () -> Unit = {},
     onOpenProPlan: () -> Unit = {}
 ) {
+    val view = androidx.compose.ui.platform.LocalView.current
     val uiState by viewModel.uiState.collectAsState()
     var showLanguageSelector by remember { mutableStateOf(false) }
     var isSelectingSource by remember { mutableStateOf(true) }
+
+    fun clickHaptic() {
+        view.performHapticFeedback(androidx.compose.ui.hapticfeedback.HapticFeedbackType.LongPress)
+    }
 
     Timber.d("MainScreen rendering")
 
@@ -63,14 +68,14 @@ fun MainScreen(
                     )
                 },
                 actions = {
-                    IconButton(onClick = onOpenProPlan) {
+                    IconButton(onClick = { clickHaptic(); onOpenProPlan() }) {
                         Icon(
                             Icons.Filled.WorkspacePremium,
                             contentDescription = "Upgrade a Pro",
                             tint = MaterialTheme.colorScheme.onPrimary
                         )
                     }
-                    IconButton(onClick = onOpenFavorites) {
+                    IconButton(onClick = { clickHaptic(); onOpenFavorites() }) {
                         Icon(
                             Icons.Filled.Star,
                             contentDescription = "Preferiti",
@@ -92,7 +97,7 @@ fun MainScreen(
         },
         floatingActionButton = {
             ExtendedFloatingActionButton(
-                onClick = onOpenCamera,
+                onClick = { clickHaptic(); onOpenCamera() },
                 containerColor = MaterialTheme.colorScheme.secondary,
                 contentColor = MaterialTheme.colorScheme.onSecondary,
                 icon = {
@@ -362,7 +367,9 @@ private fun LanguageSelector(
     Column {
         Button(
             onClick = { onOpenChange(!isOpen) },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .minimumInteractiveComponentSize()
         ) {
             Text(label)
             Spacer(modifier = Modifier.width(8.dp))
@@ -381,7 +388,9 @@ private fun LanguageSelector(
                     availableLanguages.forEach { language ->
                         TextButton(
                             onClick = { onLanguageSelected(language) },
-                            modifier = Modifier.fillMaxWidth()
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .minimumInteractiveComponentSize()
                         ) {
                             Text(language.name)
                         }
@@ -402,7 +411,7 @@ private fun FavoriteButton(
     onFavoriteClick: () -> Unit
 ) {
     Button(
-        onClick = onFavoriteClick,
+        onClick = { clickHaptic(); onFavoriteClick() },
         modifier = Modifier.fillMaxWidth(),
         enabled = !isSaving,
         colors = ButtonDefaults.buttonColors(

@@ -35,7 +35,8 @@ import com.linguacam.presentation.viewmodel.FavoritesViewModel
 @Composable
 fun FavoritesScreen(
     viewModel: FavoritesViewModel,
-    onFavoriteSelected: (FavoriteTranslation) -> Unit = {}
+    onFavoriteSelected: (FavoriteTranslation) -> Unit = {},
+    onOpenCamera: () -> Unit = {}
 ) {
     val state by viewModel.state.collectAsState()
 
@@ -62,7 +63,7 @@ fun FavoritesScreen(
         if (state.isLoading) {
             LoadingIndicator()
         } else if (state.favorites.isEmpty()) {
-            EmptyFavoritesMessage()
+            EmptyFavoritesMessage(onOpenCamera = onOpenCamera)
         } else {
             FavoritesList(
                 favorites = state.favorites,
@@ -153,7 +154,7 @@ private fun FavoritesList(
         contentPadding = PaddingValues(8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        items(favorites) { favorite ->
+        items(favorites, key = { it.id }) { favorite ->
             FavoriteItem(
                 favorite = favorite,
                 onClick = { onFavoriteClick(favorite) },
@@ -355,7 +356,7 @@ private fun FavoriteDetailPanel(
  * Messaggio quando non ci sono preferiti.
  */
 @Composable
-private fun EmptyFavoritesMessage() {
+private fun EmptyFavoritesMessage(onOpenCamera: () -> Unit = {}) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -381,8 +382,21 @@ private fun EmptyFavoritesMessage() {
             text = "Salva le traduzioni più utili per un accesso rapido offline",
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
-            textAlign = androidx.compose.ui.text.style.TextAlign.Center
+            textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+            modifier = Modifier.padding(bottom = 24.dp)
         )
+        Button(
+            onClick = onOpenCamera,
+            modifier = Modifier.minimumInteractiveComponentSize()
+        ) {
+            Icon(
+                imageVector = Icons.Default.CameraAlt,
+                contentDescription = null,
+                modifier = Modifier.size(18.dp)
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Text("Apri fotocamera")
+        }
     }
 }
 
