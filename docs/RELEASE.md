@@ -1,5 +1,30 @@
 # Release build instructions — LinguaCam
 
+> **Placeholder pattern (GIR2 2026-07-31)** — quando serve una procedura completa ma non hai ancora i dati reali:
+> - **Nome/CN keystore**: `Lumitranslator` (marchio di fantasia neutro, derivato da "lumi" + "translator", non claims trademark)
+> - **Email DN keystore**: `lumitranslator.contact@protonmail.com` (provider privacy-friendly, evita harvesters)
+> - **Email privacy policy**: `lumitranslator.contact@protonmail.com` (stessa, tenere consistente)
+> - **Email store listing**: `lumitranslator.contact@protonmail.com` (stessa)
+> - Sostituisci con i tuoi dati reali prima della submission a Play Console.
+
+## GitHub Actions Secrets setup (per CI release)
+
+Per triggerare il workflow `.github/workflows/release.yml` con un keystore reale servono 4 secrets su GitHub:
+**Settings → Secrets and variables → Actions → New repository secret**.
+
+| Secret name | Valore | Esempio |
+|---|---|---|
+| `KEY_JKS_BASE64` | `base64 -w 0 ~/.linguacam/release.jks` | `MIIEvgIBADANBgkqhkiG9w0B...` |
+| `KEYSTORE_PASSWORD` | la store password che hai scelto al punto 1 | (12+ char random) |
+| `KEY_ALIAS` | `linguacam` | `linguacam` |
+| `KEY_PASSWORD` | la key password che hai scelto al punto 1 | (stessa di storePassword oppure diversa) |
+
+**ATTENZIONE**:
+- `KEY_JKS_BASE64` è grande (~5KB), è normale.
+- Una volta caricati i secrets, il workflow `release.yml` può essere triggerato:
+  - Manualmente: Actions → "LinguaCam Release Bundle" → Run workflow
+  - Su tag: `git tag v1.0.1 && git push origin v1.0.1`
+
 ## One-time setup
 
 ### 1. Genera il keystore (esegui UNA volta sola, conserva per sempre)
@@ -13,7 +38,7 @@ keytool -genkey -v \
   -alias linguacam \
   -storepass <SCEGLI_PASSWORD_SICURA> \
   -keypass   <SCEGLI_PASSWORD_SICURA> \
-  -dname "CN=LinguaCam, OU=Mobile, O=LinguaCam, L=IT, C=IT"
+  -dname "CN=Lumitranslator, OU=Mobile, O=Lumitranslator, L=IT, ST=IT, C=IT"
 ```
 
 **ATTENZIONE**:

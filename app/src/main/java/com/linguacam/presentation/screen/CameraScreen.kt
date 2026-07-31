@@ -147,21 +147,25 @@ fun CameraScreen(
             }
         }
 
-        if (recognizedText != null && translatedTexts.isNotEmpty()) {
-            TranslationOverlay(
-                textBlocks = recognizedText!!.blocks,
-                translatedTexts = translatedTexts,
-                containerWidth = containerWidthPx,
-                containerHeight = containerHeightPx
-            )
+        // GIR1 fix 2026-07-31: sostituiti `!!` con local val per evitare NPE su recompose asincrona
+        // (recognizedText/errorMessage controllati, ma il valore può cambiare tra check e accesso).
+        recognizedText?.let { text ->
+            if (translatedTexts.isNotEmpty()) {
+                TranslationOverlay(
+                    textBlocks = text.blocks,
+                    translatedTexts = translatedTexts,
+                    containerWidth = containerWidthPx,
+                    containerHeight = containerHeightPx
+                )
+            }
         }
 
         if (isTranslating) {
             TranslationLoadingIndicator()
         }
 
-        if (errorMessage != null) {
-            TranslationErrorMessage(errorMessage!!)
+        errorMessage?.let { msg ->
+            TranslationErrorMessage(msg)
         }
 
         if (recognizedText == null && !isTranslating && errorMessage == null) {
@@ -210,7 +214,8 @@ fun CameraScreen(
             }
         }
 
-        if (recognizedText != null) {
+        // GIR1 fix 2026-07-31: stesso pattern safe-let per il pannello bottom info.
+        recognizedText?.let { text ->
             Box(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
@@ -220,12 +225,12 @@ fun CameraScreen(
             ) {
                 Column {
                     Text(
-                        "Testo riconosciuto (${recognizedText!!.blocks.size} blocchi):",
+                        "Testo riconosciuto (${text.blocks.size} blocchi):",
                         style = MaterialTheme.typography.labelSmall,
                         color = Color.White
                     )
                     Text(
-                        recognizedText!!.fullText.take(100) + if (recognizedText!!.fullText.length > 100) "..." else "",
+                        text.fullText.take(100) + if (text.fullText.length > 100) "..." else "",
                         style = MaterialTheme.typography.bodySmall,
                         color = Color.White,
                         modifier = Modifier.padding(top = 8.dp)

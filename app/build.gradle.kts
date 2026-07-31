@@ -127,11 +127,14 @@ dependencies {
     implementation("androidx.camera:camera-lifecycle:1.3.3") // INFERRED
     implementation("androidx.camera:camera-view:1.3.3") // INFERRED
 
-    // ML Kit
-    implementation("com.google.mlkit:text-recognition:16.0.0") // INFERRED - LATIN
-    implementation("com.google.mlkit:text-recognition-chinese:16.0.0") // Step 4 - ZH
-    implementation("com.google.mlkit:text-recognition-japanese:16.0.0") // Step 4 - JA
-    implementation("com.google.mlkit:translate:17.0.0") // INFERRED
+    // ML Kit — bump 2026-07-31 (GIR1 fix #1) per supporto 16KB page-size annunciato nelle
+    // release notes ufficiali https://developers.google.com/ml-kit/release-notes.
+    // 16.0.1 e 17.0.1 sono patch API-compatibili (stessi TextRecognition.getClient(...),
+    // TranslatorOptions.Builder().setSourceLanguage(...)). Verifica su APK da rifare dopo build.
+    implementation("com.google.mlkit:text-recognition:16.0.1") // LATIN — bump 16.0.0 -> 16.0.1 (16KB page-size ready)
+    implementation("com.google.mlkit:text-recognition-chinese:16.0.1") // ZH — bump 16.0.0 -> 16.0.1
+    implementation("com.google.mlkit:text-recognition-japanese:16.0.1") // JA — bump 16.0.0 -> 16.0.1
+    implementation("com.google.mlkit:translate:17.0.1") // bump 17.0.0 -> 17.0.1 (16KB page-size ready)
     implementation("com.google.android.gms:play-services-tasks:18.0.2") // INFERRED
 
     // Google Play Billing

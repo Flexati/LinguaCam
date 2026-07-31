@@ -65,7 +65,8 @@ class BillingPresenterTest {
 
     @Test
     fun `BillingEffect mapping is total - all sources mapped`() {
-        // Smoke: l'enum BillingEffect copre tutti i casi presentation-side.
+        // Smoke: BillingEffect copre tutti i casi presentation-side.
+        // GIR7: aggiunto PendingPurchase (pagamento in sospeso).
         val effects = listOf(
             BillingEffect.Idle,
             BillingEffect.Loading,
@@ -73,8 +74,9 @@ class BillingPresenterTest {
             BillingEffect.ProUnlocked,
             BillingEffect.Restored,
             BillingEffect.UserCancelled,
+            BillingEffect.PendingPurchase,  // GIR7
             BillingEffect.Error(0, "")
         )
-        assertEquals(7, effects.size)
+        assertEquals(8, effects.size)
     }
 }

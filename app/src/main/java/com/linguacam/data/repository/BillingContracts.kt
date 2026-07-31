@@ -24,6 +24,8 @@ sealed class BillingFlowResult {
     object Idle : BillingFlowResult()
     object LaunchedFlow : BillingFlowResult()
     object UserCancelled : BillingFlowResult()
+    /** GIR7: acquisto in stato PENDING (pagamento in sospeso, es. paesi slow-pay). */
+    object PendingPurchase : BillingFlowResult()
     data class Success(val purchaseState: Int) : BillingFlowResult()
     data class Error(val responseCode: Int, val message: String) : BillingFlowResult()
 }

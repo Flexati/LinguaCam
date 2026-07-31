@@ -8,6 +8,8 @@ keystores/
 **/debug.keystore
 **/*.jks
 **/*.keystore
+**/keystore.properties
+*.keystore.properties
 
 # Gradle
 .gradle/

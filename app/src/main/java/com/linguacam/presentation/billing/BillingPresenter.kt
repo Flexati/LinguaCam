@@ -27,6 +27,7 @@ class BillingPresenter(billing: BillingRepositoryAPI) {
             BillingFlowResult.Idle -> BillingEffect.Idle
             BillingFlowResult.LaunchedFlow -> BillingEffect.FlowLaunched
             BillingFlowResult.UserCancelled -> BillingEffect.UserCancelled
+            BillingFlowResult.PendingPurchase -> BillingEffect.PendingPurchase  // GIR7
             is BillingFlowResult.Success -> BillingEffect.ProUnlocked
             is BillingFlowResult.Error -> BillingEffect.Error(
                 code = result.responseCode,

@@ -101,6 +101,10 @@ fun ProPlanScreen(
                     isPurchasing = false
                     purchaseError = "Acquisto annullato."
                 }
+                BillingEffect.PendingPurchase -> {
+                    isPurchasing = false
+                    purchaseError = "Acquisto in elaborazione. Riceverai una notifica al completamento."
+                }
                 is BillingEffect.Error -> {
                     isPurchasing = false
                     purchaseError = effect.message.ifBlank { "Errore (${effect.code})" }
